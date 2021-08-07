@@ -1,5 +1,16 @@
 package edu.miu.cs.cs544.flightreservation.domain;
 
-public enum Status {
-    PAID,PENDING,CANCELLED,EXPIRED
+import lombok.Data;
+
+import javax.persistence.*;
+
+@Entity
+@Data
+public class Status {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Enumerated(EnumType.STRING)
+    private EStatus status;
 }
