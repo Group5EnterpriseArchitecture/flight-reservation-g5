@@ -1,0 +1,11 @@
+package edu.miu.cs.cs544.flightreservation.domain;
+
+
+public class Address {
+
+    private Long id;
+    private String street;
+    private String city;
+    private String state;
+    private String zip;
+}
