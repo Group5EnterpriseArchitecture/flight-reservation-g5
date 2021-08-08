@@ -1,11 +1,13 @@
 package edu.miu.cs.cs544.flightreservation.domain;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class Airport {
 
     @Id

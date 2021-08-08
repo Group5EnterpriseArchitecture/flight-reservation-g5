@@ -21,8 +21,8 @@ public class AirportController {
     }
 
     @PostMapping("/airports")
-    public void addAirports(@RequestBody Airport airport){
-
+    public AirportDTO addAirports(@RequestBody Airport airport){
+        return airportService.addAirport(airport);
     }
 
     @PutMapping("/airports/{code}")

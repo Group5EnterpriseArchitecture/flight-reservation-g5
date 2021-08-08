@@ -8,10 +8,12 @@ import edu.miu.cs.cs544.flightreservation.service.AirportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class AirportServiceImpl implements AirportService {
 
     @Autowired
@@ -26,5 +28,12 @@ public class AirportServiceImpl implements AirportService {
                 .collect(Collectors.toList());
 
     }
+
+    @Override
+    public AirportDTO addAirport(Airport airport) {
+        airportRepository.save(airport);
+        return AirportAdapter.getAirportDTOFromAirport(airport);
+    }
+
 
 }
