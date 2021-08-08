@@ -1,21 +1,18 @@
-package edu.miu.cs.cs544.flightreservation.domain;
+package edu.miu.cs.cs544.flightreservation.DTO;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Embeddable;
-
-@Embeddable
 @Data
 @NoArgsConstructor
-public class Address {
+public class AddressDTO {
 
     private String street;
     private String city;
     private String state;
     private String zip;
 
-    public Address(String street, String city, String state, String zip) {
+    public AddressDTO(String street, String city, String state, String zip) {
         this.street = street;
         this.city = city;
         this.state = state;
