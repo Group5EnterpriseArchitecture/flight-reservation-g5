@@ -15,7 +15,6 @@ public class AirportController {
     @Autowired
     private AirportService airportService;
 
-    //1. View list of airports  Passenger
     @GetMapping("/airports")
     public List<AirportDTO> getAllAirports(){
         return airportService.getAllAirports();
