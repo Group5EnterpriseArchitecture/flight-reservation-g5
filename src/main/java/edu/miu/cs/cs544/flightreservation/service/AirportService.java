@@ -8,4 +8,6 @@ import java.util.List;
 public interface AirportService {
     List<AirportDTO> getAllAirports();
     AirportDTO addAirport(Airport airport);
+    AirportDTO updateAirport(String code, Airport airport);
+    void deleteAirport(String code);
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class AirportController {
 
     @Autowired
@@ -26,13 +27,13 @@ public class AirportController {
     }
 
     @PutMapping("/airports/{code}")
-    public void updateAirports(@PathVariable String code, @RequestBody Airport airport){
-
+    public AirportDTO updateAirports(@PathVariable String code, @RequestBody Airport airport){
+        return airportService.updateAirport(code, airport);
     }
 
     @DeleteMapping("/airports/{code}")
     public void deleteAirports(@PathVariable String code){
-
+        airportService.deleteAirport(code);
     }
 
 
