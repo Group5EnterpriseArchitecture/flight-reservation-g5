@@ -3,7 +3,7 @@ package edu.miu.cs.cs544.flightreservation.domain;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -15,15 +15,15 @@ public class Flight {
     private String flightNumber;
     private Integer capacity;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Airport departure;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Airport arrival;
-    private LocalTime departureTime;
-    private LocalTime arrivalTime;
+    private LocalDateTime departureTime;
+    private LocalDateTime arrivalTime;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Airline operateBy;
 
 }

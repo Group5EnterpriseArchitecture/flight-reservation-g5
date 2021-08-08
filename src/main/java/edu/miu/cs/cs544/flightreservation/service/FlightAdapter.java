@@ -5,6 +5,8 @@ import edu.miu.cs.cs544.flightreservation.DTO.AirportDTO;
 import edu.miu.cs.cs544.flightreservation.DTO.FlightDTO;
 import edu.miu.cs.cs544.flightreservation.domain.Flight;
 
+import java.time.LocalDateTime;
+
 public class FlightAdapter {
 
     public static FlightDTO getFlightDTOFromFlight(Flight flight) {
