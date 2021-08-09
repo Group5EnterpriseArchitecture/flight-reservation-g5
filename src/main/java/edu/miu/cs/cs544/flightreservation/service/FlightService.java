@@ -10,7 +10,7 @@ public interface FlightService {
     FlightDTO addFlight(Flight flight);
     List<FlightDTO> getFlights(String departure, String arrival, LocalDateTime departureTime);
     FlightDTO updateFlight(String flightNumber, Flight flight);
-    FlightDTO deleteFlight(String flightNumber);
+    boolean deleteFlight(String flightNumber);
 
     List<FlightDTO> getFlights();
 }

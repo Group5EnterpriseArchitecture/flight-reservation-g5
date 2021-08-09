@@ -1,11 +1,15 @@
 package edu.miu.cs.cs544.flightreservation.controller;
 
 import edu.miu.cs.cs544.flightreservation.domain.Reservation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
 public class ReservationController {
+
+    @Autowired
+
 
     //4. View list of own reservations
     @GetMapping("/passengers/{id}/reservations")

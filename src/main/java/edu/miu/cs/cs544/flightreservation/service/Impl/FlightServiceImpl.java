@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,15 +33,27 @@ public class FlightServiceImpl implements FlightService {
                 .collect(Collectors.toList());
     }
 
-
     @Override
     public FlightDTO updateFlight(String flightNumber, Flight flight) {
-        return null;
+        Flight flightToBeUpdated = flightRepository.getFlightByFlightNumber(flightNumber);
+
+            flightToBeUpdated.setFlightNumber(flight.getFlightNumber());
+            flightToBeUpdated.setArrival(flight.getArrival());
+            flightToBeUpdated.setArrivalTime(flight.getArrivalTime());
+            flightToBeUpdated.setDeparture(flight.getDeparture());
+            flightToBeUpdated.setCapacity(flight.getCapacity());
+            flightToBeUpdated.setDepartureTime(flight.getDepartureTime());
+            flightToBeUpdated.setOperateBy(flight.getOperateBy());
+
+           return FlightAdapter.getFlightDTOFromFlight(flightRepository.save(flightToBeUpdated));
+
     }
 
     @Override
-    public FlightDTO deleteFlight(String flightNumber) {
-        return null;
+    public boolean deleteFlight(String flightNumber) {
+        Flight flightToBeDeleted = flightRepository.getFlightByFlightNumber(flightNumber);
+            flightRepository.delete(flightToBeDeleted);
+        return true;
     }
 
     @Override

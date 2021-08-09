@@ -24,11 +24,12 @@ public class FlightController {
                                                    @RequestParam(value = "arrival", required = false) String arrival,
                                                    @RequestParam(value = "departureTime", required = false)
                                                        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime departureTime) {
+
         if(departure == null || arrival == null || departureTime == null) {
             return flightService.getFlights();
         }
-       return flightService.getFlights(departure, arrival, departureTime);
 
+       return flightService.getFlights(departure, arrival, departureTime);
     }
 
 
@@ -38,12 +39,12 @@ public class FlightController {
     }
 
     @PutMapping("/flights/{flightNumber}")
-    public void updateFlight(@PathVariable String flightNumber, @RequestBody Flight flight){
-
+    public FlightDTO updateFlight(@PathVariable String flightNumber, @RequestBody Flight flight){
+        return flightService.updateFlight(flightNumber,flight);
     }
 
     @DeleteMapping("/flights/{flightNumber}")
-    public void deleteFlight(@PathVariable String flightNumber){
-
+    public boolean deleteFlight(@PathVariable String flightNumber){
+        return flightService.deleteFlight(flightNumber);
     }
 }

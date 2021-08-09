@@ -15,15 +15,15 @@ public class Flight {
     private String flightNumber;
     private Integer capacity;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Airport departure;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Airport arrival;
     private LocalDateTime departureTime;
     private LocalDateTime arrivalTime;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Airline operateBy;
 
 }
