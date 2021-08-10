@@ -5,10 +5,7 @@ import edu.miu.cs.cs544.flightreservation.DTO.TicketDTO;
 import edu.miu.cs.cs544.flightreservation.domain.EStatus;
 import edu.miu.cs.cs544.flightreservation.domain.Reservation;
 import edu.miu.cs.cs544.flightreservation.domain.Ticket;
-import edu.miu.cs.cs544.flightreservation.repository.AirlineRepository;
-import edu.miu.cs.cs544.flightreservation.repository.AirportRepository;
-import edu.miu.cs.cs544.flightreservation.repository.ReservationRepository;
-import edu.miu.cs.cs544.flightreservation.repository.TicketRepository;
+import edu.miu.cs.cs544.flightreservation.repository.*;
 import edu.miu.cs.cs544.flightreservation.service.ReservationAdapter;
 import edu.miu.cs.cs544.flightreservation.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,13 +31,16 @@ public class ReservationServiceImpl implements ReservationService {
     @Autowired
     private AirlineRepository airlineRepository;
 
+    @Autowired
+    private FlightRepository flightRepository;
+
     @Override
     public List<ReservationDTO> getAllReservations() {
         return ReservationAdapter.getListReservationDTOFromListReservation(reservationRepository.findAll());
     }
 
     public ReservationDTO addReservation(ReservationDTO reservationDTO) {
-        Reservation reservation = ReservationAdapter.getReservationFromReservationDTO(reservationDTO, airportRepository, airlineRepository);
+        Reservation reservation = ReservationAdapter.getReservationFromReservationDTO(reservationDTO, flightRepository);
         return ReservationAdapter.getReservationDTOFromReservation(reservationRepository.save(reservation));
     }
 
@@ -53,7 +53,7 @@ public class ReservationServiceImpl implements ReservationService {
     public ReservationDTO cancelReservation(String reservationCode) {
         Reservation reservation = reservationRepository.getReservationByReservationCode(reservationCode);
         if(!reservation.getStatus().equals(EStatus.PENDING)) {
-            return new ReservationDTO();
+            return null;
         }
         reservation.setStatus(EStatus.CANCELLED);
         return ReservationAdapter.getReservationDTOFromReservation(reservation);
