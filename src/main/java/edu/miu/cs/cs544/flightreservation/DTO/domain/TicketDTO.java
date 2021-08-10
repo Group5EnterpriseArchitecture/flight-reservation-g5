@@ -4,10 +4,12 @@ import edu.miu.cs.cs544.flightreservation.domain.Ticket;
 import edu.miu.cs.cs544.flightreservation.service.FlightAdapter;
 import lombok.Data;
 
+import javax.validation.constraints.Max;
 import java.time.LocalDateTime;
 
 @Data
 public class TicketDTO {
+    @Max(20)
     private String ticketNumber;
     private LocalDateTime flightDate;
     private FlightDTO flight;
