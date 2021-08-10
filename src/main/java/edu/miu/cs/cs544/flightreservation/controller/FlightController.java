@@ -2,13 +2,12 @@ package edu.miu.cs.cs544.flightreservation.controller;
 
 import edu.miu.cs.cs544.flightreservation.DTO.FlightDTO;
 import edu.miu.cs.cs544.flightreservation.domain.Flight;
-import edu.miu.cs.cs544.flightreservation.service.FlightAdapter;
 import edu.miu.cs.cs544.flightreservation.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -23,7 +22,7 @@ public class FlightController {
     public List<FlightDTO> getFlightsFromToInaDate(@RequestParam(value = "departure", required = false) String departure,
                                                    @RequestParam(value = "arrival", required = false) String arrival,
                                                    @RequestParam(value = "departureTime", required = false)
-                                                       @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime departureTime) {
+                                                       @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate departureTime) {
 
         if(departure == null || arrival == null || departureTime == null) {
             return flightService.getFlights();
@@ -34,8 +33,8 @@ public class FlightController {
 
 
     @PostMapping("/flights")
-    public FlightDTO addFlight(@RequestBody Flight flight){
-       return flightService.addFlight(flight);
+    public FlightDTO addFlight(@RequestBody FlightDTO flightDTO){
+       return flightService.addFlight(flightDTO);
     }
 
     @PutMapping("/flights/{flightNumber}")

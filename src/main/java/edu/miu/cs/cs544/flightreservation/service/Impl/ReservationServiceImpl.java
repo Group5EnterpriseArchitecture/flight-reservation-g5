@@ -5,6 +5,8 @@ import edu.miu.cs.cs544.flightreservation.DTO.TicketDTO;
 import edu.miu.cs.cs544.flightreservation.domain.EStatus;
 import edu.miu.cs.cs544.flightreservation.domain.Reservation;
 import edu.miu.cs.cs544.flightreservation.domain.Ticket;
+import edu.miu.cs.cs544.flightreservation.repository.AirlineRepository;
+import edu.miu.cs.cs544.flightreservation.repository.AirportRepository;
 import edu.miu.cs.cs544.flightreservation.repository.ReservationRepository;
 import edu.miu.cs.cs544.flightreservation.repository.TicketRepository;
 import edu.miu.cs.cs544.flightreservation.service.ReservationAdapter;
@@ -26,13 +28,19 @@ public class ReservationServiceImpl implements ReservationService {
     @Autowired
     private TicketRepository ticketRepository;
 
+    @Autowired
+    private AirportRepository airportRepository;
+
+    @Autowired
+    private AirlineRepository airlineRepository;
+
     @Override
     public List<ReservationDTO> getAllReservations() {
         return ReservationAdapter.getListReservationDTOFromListReservation(reservationRepository.findAll());
     }
 
     public ReservationDTO addReservation(ReservationDTO reservationDTO) {
-        Reservation reservation = ReservationAdapter.getReservationFromReservationDTO(reservationDTO);
+        Reservation reservation = ReservationAdapter.getReservationFromReservationDTO(reservationDTO, airportRepository, airlineRepository);
         return ReservationAdapter.getReservationDTOFromReservation(reservationRepository.save(reservation));
     }
 

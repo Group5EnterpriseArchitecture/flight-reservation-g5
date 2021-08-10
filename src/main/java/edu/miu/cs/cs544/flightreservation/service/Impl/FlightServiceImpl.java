@@ -2,6 +2,8 @@ package edu.miu.cs.cs544.flightreservation.service.Impl;
 
 import edu.miu.cs.cs544.flightreservation.DTO.FlightDTO;
 import edu.miu.cs.cs544.flightreservation.domain.Flight;
+import edu.miu.cs.cs544.flightreservation.repository.AirlineRepository;
+import edu.miu.cs.cs544.flightreservation.repository.AirportRepository;
 import edu.miu.cs.cs544.flightreservation.repository.FlightRepository;
 import edu.miu.cs.cs544.flightreservation.service.FlightAdapter;
 import edu.miu.cs.cs544.flightreservation.service.FlightService;
@@ -9,9 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,14 +22,28 @@ public class FlightServiceImpl implements FlightService {
     @Autowired
     FlightRepository flightRepository;
 
+    @Autowired
+    AirportRepository airportRepository;
+
+    @Autowired
+    AirlineRepository airlineRepository;
+
+
     @Override
-    public FlightDTO addFlight(Flight flight) {
-        return FlightAdapter.getFlightDTOFromFlight(flightRepository.save(flight));
+    public FlightDTO addFlight(FlightDTO flightDTO) {
+        if(airportRepository.getAirportByCode(flightDTO.getDepartureAirportCode()) == null ||
+        airportRepository.getAirportByCode(flightDTO.getArrivalAirportCode()) == null ||
+        airlineRepository.getAirlineByCode(flightDTO.getOperateBy()) == null) {
+            return new FlightDTO();
+        }
+        Flight flightToBeAdded = FlightAdapter.getFlightFromFlightDTO(flightDTO, airportRepository, airlineRepository);
+        return FlightAdapter.getFlightDTOFromFlight(flightRepository.save(flightToBeAdded));
     }
 
     @Override
-    public List<FlightDTO> getFlights(String departure, String arrival, LocalDateTime departureTime) {
-        List<Flight> flights = flightRepository.getSpecificFlight(departure, arrival, departureTime);
+    public List<FlightDTO> getFlights(String departure, String arrival, LocalDate departureTime) {
+
+        List<Flight> flights = flightRepository.getSpecificFlight(departure, arrival, departureTime.atStartOfDay(), departureTime.plusDays(1).atStartOfDay());
         return flights.stream().map(FlightAdapter::getFlightDTOFromFlight)
                 .collect(Collectors.toList());
     }

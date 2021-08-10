@@ -1,27 +1,23 @@
 package edu.miu.cs.cs544.flightreservation.DTO;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class FlightDTO {
 
     private String flightNumber;
     private Integer capacity;
-    private AirportDTO departure;
-    private AirportDTO arrival;
+    private String departureAirportCode;
+    private String arrivalAirportCode;
     private LocalDateTime departureTime;
     private LocalDateTime arrivalTime;
-    private AirlineDTO operateBy;
+    private String operateBy;
 
-    public FlightDTO(String flightNumber, Integer capacity, AirportDTO departure, AirportDTO arrival, LocalDateTime departureTime, LocalDateTime arrivalTime, AirlineDTO operateBy) {
-        this.flightNumber = flightNumber;
-        this.capacity = capacity;
-        this.departure = departure;
-        this.arrival = arrival;
-        this.departureTime = departureTime;
-        this.arrivalTime = arrivalTime;
-        this.operateBy = operateBy;
-    }
+
 }
