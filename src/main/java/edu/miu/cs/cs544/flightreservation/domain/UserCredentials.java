@@ -11,7 +11,8 @@ import javax.validation.constraints.Size;
 @Data
 @NoArgsConstructor
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = "username")})
-public class UserCredentials {
+public class
+UserCredentials {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

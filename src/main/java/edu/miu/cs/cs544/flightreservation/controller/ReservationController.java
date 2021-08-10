@@ -4,6 +4,8 @@ import edu.miu.cs.cs544.flightreservation.DTO.domain.ReservationDTO;
 import edu.miu.cs.cs544.flightreservation.DTO.domain.TicketDTO;
 import edu.miu.cs.cs544.flightreservation.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,23 +17,29 @@ public class ReservationController {
     @Autowired
     private ReservationService reservationService;
 
-
     //4. View list of own reservations
-    @GetMapping("/passengers/{id}/reservations")
-    public List<ReservationDTO> getOwnReservations(@PathVariable String id){
-        return reservationService.getOwnReservations(id);
+    @GetMapping("/user/reservations")
+    @PreAuthorize("hasAnyRole('ADMIN', 'PASSENGER', 'AGENT')")
+    public List<ReservationDTO> getOwnReservations(Authentication authentication){
+        return reservationService.getOwnReservations(authentication.getName());
     }
 
     //5. View details of a reservation (flights, departure times, etc.)
-    @GetMapping("/passengers/{id}/reservations/{reservationCode}")
-    public void getOwnReservationDetails(@PathVariable String id,@PathVariable String reservationCode){
-
+    @GetMapping("/user/reservations/{reservationCode}")
+    public ReservationDTO getOwnReservationDetails(@PathVariable String reservationCode){
+        return reservationService.getOwnReservationDetails(reservationCode);
     }
 
     //6. Make a reservation (note: payload will be a list of flights)
     @PostMapping("/reservations")
     public ReservationDTO addReservation(@RequestBody ReservationDTO reservationDTO){
-        return reservationService.addReservation(reservationDTO);
+        return reservationService.addReservation(reservationDTO, null);
+    }
+
+    @PostMapping("/user/reservations")
+    @PreAuthorize("hasAnyRole('ADMIN', 'PASSENGER', 'AGENT')")
+    public ReservationDTO addLoggedInReservation(@RequestBody ReservationDTO reservationDTO, Authentication authentication){
+        return reservationService.addReservation(reservationDTO, authentication.getName());
     }
 
     //7. Cancel a reservation
@@ -49,6 +57,7 @@ public class ReservationController {
 
     //---------------------------------------------all crud operations------------------------------------------------
     @GetMapping("/reservations")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<ReservationDTO> getAllReservations(){
         return reservationService.getAllReservations();
     }

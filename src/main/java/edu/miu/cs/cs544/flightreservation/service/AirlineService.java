@@ -10,4 +10,5 @@ public interface AirlineService {
     AirlineDTO addAirline(Airline airline);
     AirlineDTO updateAirline(String code, Airline airline);
     void deleteAirline(String code);
+    List<AirlineDTO> getAllAirlinesDepartFromAirport(String departureAirportCode);
 }

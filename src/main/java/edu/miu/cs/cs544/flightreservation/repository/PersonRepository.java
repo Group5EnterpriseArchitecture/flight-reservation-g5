@@ -9,5 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface PersonRepository extends JpaRepository<Person, Long> {
 
+    Person getPersonById(Long id);
+
     Boolean existsByEmail(String email);
 }

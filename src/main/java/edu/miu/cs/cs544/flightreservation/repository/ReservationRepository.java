@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 @Transactional
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
-    @Query("select distinct r from Reservation r where r.passenger.id = :id")
+    @Query("select distinct r from Reservation r where r.reservedBy.id = :id")
     List<Reservation> getOwnReservation(Long id);
 
     Reservation getReservationByReservationCode(String reservationCode);

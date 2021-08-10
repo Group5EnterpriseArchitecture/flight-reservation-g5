@@ -4,7 +4,6 @@ import edu.miu.cs.cs544.flightreservation.DTO.domain.ReservationDTO;
 import edu.miu.cs.cs544.flightreservation.domain.EStatus;
 import edu.miu.cs.cs544.flightreservation.domain.Flight;
 import edu.miu.cs.cs544.flightreservation.domain.Reservation;
-import edu.miu.cs.cs544.flightreservation.repository.FlightRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,8 +22,8 @@ public class ReservationAdapter {
         return reservations.stream().map(r -> getReservationDTOFromReservation(r)).collect(Collectors.toList());
     }
 
-    public static Reservation getReservationFromReservationDTO(ReservationDTO reservationDTO, FlightRepository flightRepository){
-        List<Flight> itinerary = reservationDTO.getItinerary().stream().map(fn -> flightRepository.getFlightByFlightNumber(fn)).collect(Collectors.toList());
+    public static Reservation getReservationFromReservationDTO(ReservationDTO reservationDTO, List<Flight> itinerary){
+
         Reservation reservation = new Reservation(
                 String.valueOf(Math.random()),
                 PersonAdapter.getPersonFromPersonDTO(reservationDTO.getPassenger()),
