@@ -1,7 +1,7 @@
 package edu.miu.cs.cs544.flightreservation.service;
 
-import edu.miu.cs.cs544.flightreservation.DTO.AddressDTO;
-import edu.miu.cs.cs544.flightreservation.DTO.AirportDTO;
+import edu.miu.cs.cs544.flightreservation.DTO.domain.AddressDTO;
+import edu.miu.cs.cs544.flightreservation.DTO.domain.AirportDTO;
 import edu.miu.cs.cs544.flightreservation.domain.Address;
 import edu.miu.cs.cs544.flightreservation.domain.Airport;
 

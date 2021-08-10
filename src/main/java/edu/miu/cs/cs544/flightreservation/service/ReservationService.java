@@ -1,9 +1,7 @@
 package edu.miu.cs.cs544.flightreservation.service;
 
-import edu.miu.cs.cs544.flightreservation.DTO.ReservationDTO;
-import edu.miu.cs.cs544.flightreservation.DTO.TicketDTO;
-import edu.miu.cs.cs544.flightreservation.domain.Reservation;
-import edu.miu.cs.cs544.flightreservation.domain.Ticket;
+import edu.miu.cs.cs544.flightreservation.DTO.domain.ReservationDTO;
+import edu.miu.cs.cs544.flightreservation.DTO.domain.TicketDTO;
 
 import java.util.List;
 

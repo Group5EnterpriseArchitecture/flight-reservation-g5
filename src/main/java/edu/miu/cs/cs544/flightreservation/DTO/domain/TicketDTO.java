@@ -1,11 +1,9 @@
-package edu.miu.cs.cs544.flightreservation.DTO;
+package edu.miu.cs.cs544.flightreservation.DTO.domain;
 
 import edu.miu.cs.cs544.flightreservation.domain.Ticket;
 import edu.miu.cs.cs544.flightreservation.service.FlightAdapter;
 import lombok.Data;
 
-import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data

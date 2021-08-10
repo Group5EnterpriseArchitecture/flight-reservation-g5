@@ -1,4 +1,4 @@
-package edu.miu.cs.cs544.flightreservation.DTO;
+package edu.miu.cs.cs544.flightreservation.DTO.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

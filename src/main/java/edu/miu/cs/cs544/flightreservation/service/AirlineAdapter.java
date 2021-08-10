@@ -1,6 +1,6 @@
 package edu.miu.cs.cs544.flightreservation.service;
 
-import edu.miu.cs.cs544.flightreservation.DTO.AirlineDTO;
+import edu.miu.cs.cs544.flightreservation.DTO.domain.AirlineDTO;
 import edu.miu.cs.cs544.flightreservation.domain.Airline;
 
 public class AirlineAdapter {

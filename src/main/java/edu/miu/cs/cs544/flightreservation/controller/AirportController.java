@@ -1,6 +1,6 @@
 package edu.miu.cs.cs544.flightreservation.controller;
 
-import edu.miu.cs.cs544.flightreservation.DTO.AirportDTO;
+import edu.miu.cs.cs544.flightreservation.DTO.domain.AirportDTO;
 import edu.miu.cs.cs544.flightreservation.domain.Airport;
 import edu.miu.cs.cs544.flightreservation.service.AirportService;
 import org.springframework.beans.factory.annotation.Autowired;

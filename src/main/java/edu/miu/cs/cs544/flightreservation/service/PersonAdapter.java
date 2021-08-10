@@ -1,10 +1,7 @@
 package edu.miu.cs.cs544.flightreservation.service;
 
-import edu.miu.cs.cs544.flightreservation.DTO.AddressDTO;
-import edu.miu.cs.cs544.flightreservation.DTO.PersonDTO;
+import edu.miu.cs.cs544.flightreservation.DTO.domain.PersonDTO;
 import edu.miu.cs.cs544.flightreservation.domain.Person;
-
-import java.time.LocalDate;
 
 public class PersonAdapter {
 

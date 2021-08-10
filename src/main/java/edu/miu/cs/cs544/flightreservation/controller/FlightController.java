@@ -1,10 +1,11 @@
 package edu.miu.cs.cs544.flightreservation.controller;
 
-import edu.miu.cs.cs544.flightreservation.DTO.FlightDTO;
+import edu.miu.cs.cs544.flightreservation.DTO.domain.FlightDTO;
 import edu.miu.cs.cs544.flightreservation.domain.Flight;
 import edu.miu.cs.cs544.flightreservation.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -19,6 +20,7 @@ public class FlightController {
 
     //3. View list of flights between a departure and destination for a date
     @GetMapping("/flights")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<FlightDTO> getFlightsFromToInaDate(
             @RequestParam(value = "departure", required = false) String departure,
             @RequestParam(value = "arrival", required = false) String arrival,

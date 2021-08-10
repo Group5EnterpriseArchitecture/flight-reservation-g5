@@ -1,6 +1,6 @@
 package edu.miu.cs.cs544.flightreservation.service;
 
-import edu.miu.cs.cs544.flightreservation.DTO.AddressDTO;
+import edu.miu.cs.cs544.flightreservation.DTO.domain.AddressDTO;
 import edu.miu.cs.cs544.flightreservation.domain.Address;
 
 public class AddressAdapter {

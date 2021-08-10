@@ -1,6 +1,6 @@
 package edu.miu.cs.cs544.flightreservation.service.Impl;
 
-import edu.miu.cs.cs544.flightreservation.DTO.AirlineDTO;
+import edu.miu.cs.cs544.flightreservation.DTO.domain.AirlineDTO;
 import edu.miu.cs.cs544.flightreservation.domain.Airline;
 import edu.miu.cs.cs544.flightreservation.exception.ResourceNotFoundException;
 import edu.miu.cs.cs544.flightreservation.repository.AirlineRepository;
