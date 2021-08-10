@@ -54,4 +54,9 @@ public class AirlineServiceImpl implements AirlineService {
                 .orElseThrow(() -> new ResourceNotFoundException("Airline with code " + code + " NOT FOUND"));
         airlineRepository.delete(foundAirline);
     }
+
+    @Override
+    public List<AirlineDTO> getAllAirlinesDepartFromAirport(String departureAirportCode) {
+        return AirlineAdapter.getAirlineListDTOFromAirline(airlineRepository.getAllAirlinesDepartingFromAirport(departureAirportCode));
+    }
 }

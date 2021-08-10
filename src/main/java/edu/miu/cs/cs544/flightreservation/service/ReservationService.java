@@ -7,8 +7,9 @@ import java.util.List;
 
 public interface ReservationService {
     List<ReservationDTO> getAllReservations();
-    ReservationDTO addReservation(ReservationDTO reservationDTO);
-    List<ReservationDTO> getOwnReservations(String id);
+    ReservationDTO addReservation(ReservationDTO reservationDTO, String username);
+    List<ReservationDTO> getOwnReservations(String username);
     ReservationDTO cancelReservation(String reservationCode);
     List<TicketDTO> purchaseReservation(String reservationCode);
+    ReservationDTO getOwnReservationDetails(String username);
 }
