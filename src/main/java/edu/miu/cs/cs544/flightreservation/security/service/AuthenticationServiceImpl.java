@@ -1,14 +1,14 @@
 package edu.miu.cs.cs544.flightreservation.security.service;
 
-import edu.miu.cs.cs544.flightreservation.domain.ERole;
-import edu.miu.cs.cs544.flightreservation.domain.Person;
-import edu.miu.cs.cs544.flightreservation.domain.Role;
-import edu.miu.cs.cs544.flightreservation.domain.UserCredentials;
 import edu.miu.cs.cs544.flightreservation.DTO.security.request.LoginRequestDTO;
 import edu.miu.cs.cs544.flightreservation.DTO.security.request.SignupRequestDTO;
 import edu.miu.cs.cs544.flightreservation.DTO.security.response.GenericResponseDTO;
 import edu.miu.cs.cs544.flightreservation.DTO.security.response.LoginResponseDTO;
 import edu.miu.cs.cs544.flightreservation.DTO.security.response.MessageResponseDTO;
+import edu.miu.cs.cs544.flightreservation.domain.ERole;
+import edu.miu.cs.cs544.flightreservation.domain.Person;
+import edu.miu.cs.cs544.flightreservation.domain.Role;
+import edu.miu.cs.cs544.flightreservation.domain.UserCredentials;
 import edu.miu.cs.cs544.flightreservation.exception.BadRequestException;
 import edu.miu.cs.cs544.flightreservation.repository.PersonRepository;
 import edu.miu.cs.cs544.flightreservation.repository.RoleRepository;
@@ -21,12 +21,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class AuthenticationServiceImpl implements edu.miu.cs.cs544.flightreservation.security.service.AuthenticationService {
+@Transactional
+public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final AuthenticationManager authenticationManager;
 
