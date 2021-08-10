@@ -7,14 +7,14 @@ package edu.miu.cs.cs544.flightreservation.exception;
  * This should result in an HTTP 400 level error.</p>
  */
 
-public class BadRequestException extends RuntimeException {
+public class UserAlreadyExistsException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
-    public BadRequestException() {
+    public UserAlreadyExistsException() {
         super();
     }
 
-    public BadRequestException(String message) {
+    public UserAlreadyExistsException(String message) {
         super(message);
     }
 }

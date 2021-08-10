@@ -44,14 +44,14 @@ public class AirlineServiceImpl implements AirlineService {
                     a.setCode(airline.getCode());
                     a.setHistory(airline.getHistory());
                     return airlineRepository.save(a);
-                }).orElseThrow(ResourceNotFoundException::new); // TODO: Handle this exception
+                }).orElseThrow(() -> new ResourceNotFoundException("Airline with code " + code + " NOT FOUND"));
         return AirlineAdapter.getAirlineDTOFromAirline(foundAirline);
     }
 
     @Override
     public void deleteAirline(String code) {
         Airline foundAirline = airlineRepository.findAirlineByCode(code)
-                .orElseThrow(ResourceNotFoundException::new);
+                .orElseThrow(() -> new ResourceNotFoundException("Airline with code " + code + " NOT FOUND"));
         airlineRepository.delete(foundAirline);
     }
 }

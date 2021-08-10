@@ -2,7 +2,6 @@ package edu.miu.cs.cs544.flightreservation.controller.auth;
 
 import edu.miu.cs.cs544.flightreservation.DTO.security.request.LoginRequestDTO;
 import edu.miu.cs.cs544.flightreservation.DTO.security.request.SignupRequestDTO;
-import edu.miu.cs.cs544.flightreservation.exception.BadRequestException;
 import edu.miu.cs.cs544.flightreservation.security.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,12 +24,6 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequestDTO request) {
-        try {
-            return ResponseEntity.ok(authenticationService.registerUser(request));
-        } catch (BadRequestException e) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(e.getMessage());
-        }
+        return ResponseEntity.ok(authenticationService.registerUser(request));
     }
 }

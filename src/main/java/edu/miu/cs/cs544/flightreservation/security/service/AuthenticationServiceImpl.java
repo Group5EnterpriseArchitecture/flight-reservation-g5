@@ -9,7 +9,7 @@ import edu.miu.cs.cs544.flightreservation.domain.ERole;
 import edu.miu.cs.cs544.flightreservation.domain.Person;
 import edu.miu.cs.cs544.flightreservation.domain.Role;
 import edu.miu.cs.cs544.flightreservation.domain.UserCredentials;
-import edu.miu.cs.cs544.flightreservation.exception.BadRequestException;
+import edu.miu.cs.cs544.flightreservation.exception.UserAlreadyExistsException;
 import edu.miu.cs.cs544.flightreservation.repository.PersonRepository;
 import edu.miu.cs.cs544.flightreservation.repository.RoleRepository;
 import edu.miu.cs.cs544.flightreservation.repository.UserCredentialsRepository;
@@ -76,13 +76,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public GenericResponseDTO registerUser(SignupRequestDTO request) throws BadRequestException {
+    public GenericResponseDTO registerUser(SignupRequestDTO request) throws UserAlreadyExistsException {
         if (userCredentialsRepository.existsByUsername(request.getUsername())) {
-            throw new BadRequestException("Error: Username is already taken!");
+            throw new UserAlreadyExistsException("Error: Username is already taken!");
         }
 
         if (personRepository.existsByEmail(request.getEmail())) {
-            throw new BadRequestException("Error: Email is already in use!");
+            throw new UserAlreadyExistsException("Error: Email is already in use!");
         }
 
         String stringRole = request.getRole();
