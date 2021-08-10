@@ -41,9 +41,9 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public List<FlightDTO> getFlights(String departure, String arrival, LocalDate departureTime) {
+    public List<FlightDTO> getFlights(String departure, String arrival, LocalDate departureDate) {
 
-        List<Flight> flights = flightRepository.getSpecificFlight(departure, arrival, departureTime.atStartOfDay(), departureTime.plusDays(1).atStartOfDay());
+        List<Flight> flights = flightRepository.getSpecificFlight(departure, arrival, departureDate.atStartOfDay(), departureDate.plusDays(1).atStartOfDay());
         return flights.stream().map(FlightAdapter::getFlightDTOFromFlight)
                 .collect(Collectors.toList());
     }

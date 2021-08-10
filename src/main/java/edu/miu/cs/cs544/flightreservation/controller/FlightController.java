@@ -19,16 +19,17 @@ public class FlightController {
 
     //3. View list of flights between a departure and destination for a date
     @GetMapping("/flights")
-    public List<FlightDTO> getFlightsFromToInaDate(@RequestParam(value = "departure", required = false) String departure,
-                                                   @RequestParam(value = "arrival", required = false) String arrival,
-                                                   @RequestParam(value = "departureTime", required = false)
-                                                       @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate departureTime) {
+    public List<FlightDTO> getFlightsFromToInaDate(
+            @RequestParam(value = "departure", required = false) String departure,
+            @RequestParam(value = "arrival", required = false) String arrival,
+            @RequestParam(value = "departureDate", required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate departureDate) {
 
-        if(departure == null || arrival == null || departureTime == null) {
+        if(departure == null || arrival == null || departureDate == null) {
             return flightService.getFlights();
         }
 
-       return flightService.getFlights(departure, arrival, departureTime);
+       return flightService.getFlights(departure, arrival, departureDate);
     }
 
 
