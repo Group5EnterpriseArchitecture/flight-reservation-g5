@@ -1,6 +1,5 @@
 package edu.miu.cs.cs544.flightreservation.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +9,7 @@ import java.time.LocalDate;
 @Entity
 @Data
 @NoArgsConstructor
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
 public class Person {
 
     @Id
@@ -28,5 +28,11 @@ public class Person {
         this.birthDate = birthDate;
         this.email = email;
         this.residenceAddress = residenceAddress;
+    }
+
+    public Person(String firstName, String lastName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
     }
 }

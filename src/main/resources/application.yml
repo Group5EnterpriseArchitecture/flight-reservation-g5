@@ -18,3 +18,9 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
 server:
   port: 8080
+
+# App Properties
+flight-reservation:
+  app:
+    jwtExpirationMs: 86400000
+    jwtSecret: superLongSECRETKeyThatWeShallPutIntoAnENVIRONMENTvariable
