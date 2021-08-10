@@ -1,6 +1,5 @@
 package edu.miu.cs.cs544.flightreservation.DTO;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,10 +9,18 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class ReservationDTO {
     private String reservationCode;
     private PersonDTO passenger;
-    private List<FlightDTO> itinerary;
+    private List<String> itinerary;
+    private List<FlightDTO> itineraryOfFlights;
     private LocalDateTime reservationDateTime;
+
+    public ReservationDTO(String reservationCode, PersonDTO passenger, List<String> itinerary, List<FlightDTO> itineraryOfFlights, LocalDateTime reservationDateTime) {
+        this.reservationCode = reservationCode;
+        this.passenger = passenger;
+        this.itinerary = itinerary;
+        this.itineraryOfFlights = itineraryOfFlights;
+        this.reservationDateTime = reservationDateTime;
+    }
 }

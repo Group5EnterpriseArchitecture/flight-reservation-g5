@@ -1,8 +1,6 @@
 package edu.miu.cs.cs544.flightreservation.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -23,7 +21,7 @@ public class Reservation {
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Person passenger;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.PERSIST)
     private List<Flight> itinerary;
     private LocalDateTime reservationDateTime;
 
