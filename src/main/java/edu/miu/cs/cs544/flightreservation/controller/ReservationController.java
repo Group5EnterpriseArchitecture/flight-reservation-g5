@@ -4,6 +4,7 @@ import edu.miu.cs.cs544.flightreservation.DTO.domain.ReservationDTO;
 import edu.miu.cs.cs544.flightreservation.DTO.security.response.GenericResponseDTO;
 import edu.miu.cs.cs544.flightreservation.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -81,10 +82,16 @@ public class ReservationController {
     }
 
 
-    @GetMapping("/reservations")
+    @GetMapping(value = "/reservations", params = "fetch-all-true")
     @PreAuthorize("hasRole('ADMIN')")
     ResponseEntity<?> getAllReservations() {
         return new ResponseEntity<>(reservationService.getAllReservations(), HttpStatus.OK);
+    }
+
+    @GetMapping("/reservations")
+    @PreAuthorize("hasRole('ADMIN')")
+    ResponseEntity<?> getReservationsPage(Pageable pageable) {
+        return new ResponseEntity<>(reservationService.getAllReservations(pageable), HttpStatus.OK);
     }
 
     // TODO: implement Update Reservation

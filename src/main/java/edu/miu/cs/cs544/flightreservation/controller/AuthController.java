@@ -1,4 +1,4 @@
-package edu.miu.cs.cs544.flightreservation.controller.auth;
+package edu.miu.cs.cs544.flightreservation.controller;
 
 import edu.miu.cs.cs544.flightreservation.DTO.security.request.LoginRequestDTO;
 import edu.miu.cs.cs544.flightreservation.DTO.security.request.SignupRequestDTO;

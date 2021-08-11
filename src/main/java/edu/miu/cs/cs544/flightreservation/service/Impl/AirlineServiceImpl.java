@@ -7,6 +7,8 @@ import edu.miu.cs.cs544.flightreservation.repository.AirlineRepository;
 import edu.miu.cs.cs544.flightreservation.service.Adapter.AirlineAdapter;
 import edu.miu.cs.cs544.flightreservation.service.AirlineService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -28,6 +30,11 @@ public class AirlineServiceImpl implements AirlineService {
                 .map(AirlineAdapter::getAirlineDTOFromAirline)
                 .collect(Collectors.toList());
 
+    }
+
+    @Override
+    public Page<AirlineDTO> getAllAirlines(Pageable pageable) {
+        return airlineRepository.findAll(pageable).map(AirlineAdapter::getAirlineDTOFromAirline);
     }
 
     @Override

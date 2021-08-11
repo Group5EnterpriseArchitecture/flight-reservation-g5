@@ -10,6 +10,8 @@ import edu.miu.cs.cs544.flightreservation.service.Adapter.ReservationAdapter;
 import edu.miu.cs.cs544.flightreservation.service.ReservationService;
 import edu.miu.cs.cs544.flightreservation.utils.Randomizer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -38,6 +40,11 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public List<ReservationDTO> getAllReservations() {
         return ReservationAdapter.getListReservationDTOFromListReservation(reservationRepository.findAll());
+    }
+
+    @Override
+    public Page<ReservationDTO> getAllReservations(Pageable pageable) {
+        return reservationRepository.findAll(pageable).map(ReservationAdapter::getReservationDTOFromReservation);
     }
 
     public ReservationDTO addReservation(ReservationDTO reservationDTO, String username) {

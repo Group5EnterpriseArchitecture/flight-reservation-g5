@@ -7,6 +7,8 @@ import edu.miu.cs.cs544.flightreservation.repository.AirportRepository;
 import edu.miu.cs.cs544.flightreservation.service.Adapter.AirportAdapter;
 import edu.miu.cs.cs544.flightreservation.service.AirportService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -27,6 +29,11 @@ public class AirportServiceImpl implements AirportService {
                 .stream()
                 .map(AirportAdapter::getAirportDTOFromAirport)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<AirportDTO> getAllAirports(Pageable pageable) {
+        return airportRepository.findAll(pageable).map(AirportAdapter::getAirportDTOFromAirport);
     }
 
     @Override
