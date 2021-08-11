@@ -3,6 +3,7 @@ package edu.miu.cs.cs544.flightreservation.service.Impl;
 import edu.miu.cs.cs544.flightreservation.DTO.domain.ReservationDTO;
 import edu.miu.cs.cs544.flightreservation.DTO.domain.TicketDTO;
 import edu.miu.cs.cs544.flightreservation.domain.*;
+import edu.miu.cs.cs544.flightreservation.exception.InvalidOperationException;
 import edu.miu.cs.cs544.flightreservation.exception.ResourceNotFoundException;
 import edu.miu.cs.cs544.flightreservation.repository.*;
 import edu.miu.cs.cs544.flightreservation.service.Adapter.ReservationAdapter;
@@ -11,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,11 +45,10 @@ public class ReservationServiceImpl implements ReservationService {
         Reservation reservation;
         List<Flight> itinerary = reservationDTO.getItinerary()
                 .stream()
-                .map(fn -> {
-                    Optional<Flight> flightByFlightNumber = flightRepository.getFlightByFlightNumber(fn);
-                    return flightByFlightNumber.orElseThrow(
-                            () -> new ResourceNotFoundException("Flight with flight number " + fn + " does not Exist"));
-                })
+                .map(fn -> flightRepository
+                        .getFlightByFlightNumber(fn)
+                        .orElseThrow(() -> new ResourceNotFoundException("Flight with flight number "
+                                + fn + " does not Exist")))
                 .collect(Collectors.toList());
 
         // If user is Logged in, ReservedBy === Logged in User
@@ -93,7 +95,7 @@ public class ReservationServiceImpl implements ReservationService {
     public List<TicketDTO> purchaseReservation(String reservationCode) {
         Reservation reservation = reservationRepository.getReservationByReservationCode(reservationCode);
         if (!reservation.getStatus().equals(EStatus.PENDING)) {
-            throw new IllegalStateException("Cannot purchase Reservation. Status is " + reservation.getStatus());
+            throw new InvalidOperationException("Cannot purchase Reservation. Status is " + reservation.getStatus());
         }
         reservation.setStatus(EStatus.PAID);
         List<Ticket> tickets = reservation.getItinerary().stream().map(f -> new Ticket(generateCode(20),

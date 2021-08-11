@@ -1,4 +1,4 @@
-package edu.miu.cs.cs544.flightreservation.security;
+package edu.miu.cs.cs544.flightreservation.security.config;
 
 import edu.miu.cs.cs544.flightreservation.security.jwt.AuthTokenFilter;
 import edu.miu.cs.cs544.flightreservation.security.jwt.JWTAuthenticationEntryPoint;

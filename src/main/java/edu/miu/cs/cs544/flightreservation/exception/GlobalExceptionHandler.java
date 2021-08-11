@@ -1,5 +1,6 @@
 package edu.miu.cs.cs544.flightreservation.exception;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -45,15 +47,26 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
+    @ExceptionHandler
+    protected ResponseEntity<Object> handleInvalidOperation(InvalidOperationException ex, WebRequest request) {
+        return handleExceptionInternal(ex, ex.getMessage(),
+                new HttpHeaders(), HttpStatus.CONFLICT, request);
+    }
+
     /**
      * Generic RuntimeException Handler
      * This should result in an HTTP 400 level error.</p>
      */
-    @ExceptionHandler(value = {UserAlreadyExistsException.class, IllegalStateException.class})
-    protected ResponseEntity<Object> handleConflict(RuntimeException ex, WebRequest request) {
+    @ExceptionHandler(value = {UserAlreadyExistsException.class})
+    protected ResponseEntity<Object> handleConflict(RuntimeException ex) {
 
-        return handleExceptionInternal(ex, ex.getMessage(),
-                new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+        Map<String, Object> errorMap = new HashMap<>();
+        errorMap.put("success", false);
+        errorMap.put("data", null);
+        errorMap.put("status", HttpStatus.BAD_REQUEST.value());
+        errorMap.put("Error Message", ex.getMessage());
+
+        return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
     }
 
 }

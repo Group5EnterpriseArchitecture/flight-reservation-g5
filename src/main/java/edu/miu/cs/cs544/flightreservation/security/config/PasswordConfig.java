@@ -1,4 +1,4 @@
-package edu.miu.cs.cs544.flightreservation.security;
+package edu.miu.cs.cs544.flightreservation.security.config;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
