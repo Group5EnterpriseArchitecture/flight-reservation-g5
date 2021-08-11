@@ -1,44 +1,49 @@
 package edu.miu.cs.cs544.flightreservation.controller;
 
-import edu.miu.cs.cs544.flightreservation.DTO.AirportDTO;
-import edu.miu.cs.cs544.flightreservation.domain.Airport;
+import edu.miu.cs.cs544.flightreservation.DTO.domain.AirportDTO;
 import edu.miu.cs.cs544.flightreservation.service.AirportService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.validation.Valid;
 
 @RestController
+@RequestMapping("/api")
 public class AirportController {
 
     @Autowired
     private AirportService airportService;
 
-    //1. View list of airports  Passenger
+    @GetMapping(value = "/airports", params = "fetch-all-true")
+    ResponseEntity<?> getAllAirports() {
+        return new ResponseEntity<>(airportService.getAllAirports(), HttpStatus.OK);
+    }
+
     @GetMapping("/airports")
-    public List<AirportDTO> getAllAirports(){
-        return airportService.getAllAirports();
+    ResponseEntity<?> getAirportsPage(Pageable pageable) {
+        return new ResponseEntity<>(airportService.getAllAirports(pageable), HttpStatus.OK);
     }
 
     @PostMapping("/airports")
-    public AirportDTO addAirports(@RequestBody Airport airport){
-        return airportService.addAirport(airport);
+    @PreAuthorize("hasRole('ADMIN')")
+    ResponseEntity<?> addAirports(@RequestBody @Valid AirportDTO airportDTO) {
+        return new ResponseEntity<>(airportService.addAirport(airportDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/airports/{code}")
-    public void updateAirports(@PathVariable String code, @RequestBody Airport airport){
-
+    @PreAuthorize("hasRole('ADMIN')")
+    ResponseEntity<?> updateAirports(@PathVariable String code, @RequestBody @Valid AirportDTO airportDTO) {
+        return new ResponseEntity<>(airportService.updateAirport(code, airportDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("/airports/{code}")
-    public void deleteAirports(@PathVariable String code){
-
-    }
-
-
-    //2. View list of airlines flying out of an airport (search by airport three letter code)
-    @GetMapping("/airports/{airportCode}/airlines")
-    public void getAirlinesFromAirport(@PathVariable String airportCode){
-
+    @PreAuthorize("hasRole('ADMIN')")
+    ResponseEntity<?> deleteAirports(@PathVariable String code) {
+        airportService.deleteAirport(code);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

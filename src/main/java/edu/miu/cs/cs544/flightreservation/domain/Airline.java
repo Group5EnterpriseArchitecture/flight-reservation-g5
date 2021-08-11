@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@SecondaryTable(name="airline_history")
+@SecondaryTable(name = "airline_history")
 @Data
 @NoArgsConstructor
 public class Airline {
@@ -17,7 +17,7 @@ public class Airline {
     private String code;
     private String name;
 
-    @Column(table = "airline_history")
+    @Column(table = "airline_history", length = 2000)
     private String history;
 
     public Airline(String code, String name, String history) {

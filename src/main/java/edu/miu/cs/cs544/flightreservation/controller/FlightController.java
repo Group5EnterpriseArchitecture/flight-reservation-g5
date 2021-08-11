@@ -1,33 +1,57 @@
 package edu.miu.cs.cs544.flightreservation.controller;
 
-import edu.miu.cs.cs544.flightreservation.domain.Flight;
+import edu.miu.cs.cs544.flightreservation.DTO.domain.FlightDTO;
+import edu.miu.cs.cs544.flightreservation.service.FlightService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.time.LocalDate;
+
+@RestController
+@RequestMapping("/api")
 public class FlightController {
 
-    //3. View list of flights between a departure and destination for a date
+    @Autowired
+    private FlightService flightService;
+
     @GetMapping("/flights")
-    public void getFlightsFromToInaDate(@RequestParam(value = "departure", required = false) String departure,
-                                        @RequestParam(value = "arrival", required = false) String arrival,
-                                        @RequestParam(value = "departureTime", required = false) String departureTime) {
+    ResponseEntity<?> getFlightsFromToInaDate(
+            @RequestParam(value = "departure", required = false) String departure,
+            @RequestParam(value = "arrival", required = false) String arrival,
+            @RequestParam(value = "departureDate", required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate departureDate, Pageable pageable) {
 
-        //if three params is null return all flights
+        if (departure == null || arrival == null || departureDate == null) {
+            return new ResponseEntity<>(flightService.getAllFlights(pageable), HttpStatus.OK);
+        }
 
+        return new ResponseEntity<>(
+                flightService.getFlights(departure, arrival, departureDate),
+                HttpStatus.OK);
     }
 
-
     @PostMapping("/flights")
-    public void addFlight(@RequestBody Flight flight){
-
+    @PreAuthorize("hasRole('ADMIN')")
+    ResponseEntity<?> addFlight(@RequestBody @Valid FlightDTO flightDTO) {
+        return new ResponseEntity<>(flightService.addFlight(flightDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/flights/{flightNumber}")
-    public void updateFlight(@PathVariable String flightNumber, @RequestBody Flight flight){
-
+    @PreAuthorize("hasRole('ADMIN')")
+    ResponseEntity<?> updateFlight(@PathVariable String flightNumber, @RequestBody @Valid FlightDTO flightDTO) {
+        return new ResponseEntity<>(flightService.updateFlight(flightNumber, flightDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("/flights/{flightNumber}")
-    public void deleteFlight(@PathVariable String flightNumber){
-
+    @PreAuthorize("hasRole('ADMIN')")
+    ResponseEntity<?> deleteFlight(@PathVariable String flightNumber) {
+        flightService.deleteFlight(flightNumber);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

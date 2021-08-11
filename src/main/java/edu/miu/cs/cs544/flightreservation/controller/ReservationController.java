@@ -1,49 +1,91 @@
 package edu.miu.cs.cs544.flightreservation.controller;
 
-import edu.miu.cs.cs544.flightreservation.domain.Reservation;
+import edu.miu.cs.cs544.flightreservation.DTO.domain.ReservationDTO;
+import edu.miu.cs.cs544.flightreservation.DTO.security.response.GenericResponseDTO;
+import edu.miu.cs.cs544.flightreservation.service.ReservationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api")
 public class ReservationController {
 
-    //4. View list of own reservations
-    @GetMapping("/passengers/{id}/reservations")
-    public void getOwnReservations(@PathVariable String id){
+    @Autowired
+    private ReservationService reservationService;
 
+    @GetMapping("/user/reservations")
+    @PreAuthorize("hasAnyRole('ADMIN', 'PASSENGER', 'AGENT')")
+    ResponseEntity<?> getOwnReservations(Authentication authentication) {
+        return new ResponseEntity<>(
+                reservationService.getOwnReservations(authentication.getName()),
+                HttpStatus.OK);
     }
 
-    //5. View details of a reservation (flights, departure times, etc.)
-    @GetMapping("/passengers/{id}/reservations/{reservationCode}")
-    public void getOwnReservationDetails(@PathVariable String id,@PathVariable String reservationCode){
-
+    @GetMapping("/reservations/{reservationCode}")
+    ResponseEntity<?> getReservationDetailsByCode(@PathVariable String reservationCode) {
+        return new ResponseEntity<>(
+                reservationService.getReservationByCode(reservationCode),
+                HttpStatus.OK);
     }
 
-    //6. Make a reservation (note: payload will be a list of flights)
+    @GetMapping("/user/reservations/{reservationCode}")
+    @PreAuthorize("hasAnyRole('AGENT', 'ADMIN', 'PASSENGER')")
+    public ReservationDTO getOwnReservationDetails(@PathVariable String reservationCode,
+                                                   Authentication authentication) {
+        return reservationService.getOwnReservationDetails(reservationCode, authentication.getName());
+    }
+
     @PostMapping("/reservations")
-    public void addReservation(@RequestBody Reservation reservation){
-
+    ResponseEntity<?> addReservation(@RequestBody @Valid ReservationDTO reservationDTO) {
+        return new ResponseEntity<>(
+                reservationService.addReservation(reservationDTO, null),
+                HttpStatus.CREATED);
     }
 
-    //7. Cancel a reservation
+    @PostMapping("/user/reservations")
+    @PreAuthorize("hasAnyRole('ADMIN', 'PASSENGER', 'AGENT')")
+    ResponseEntity<?> addLoggedInReservation(@RequestBody @Valid ReservationDTO reservationDTO, Authentication authentication) {
+        return new ResponseEntity<>(
+                reservationService.addReservation(reservationDTO, authentication.getName()),
+                HttpStatus.CREATED);
+    }
+
     @PatchMapping("/reservations/{reservationCode}/cancellation")
-    public void cancelReservation(@PathVariable String reservationCode, @RequestBody Reservation reservation){
-
+    @PreAuthorize("hasAnyRole('PASSENGER', 'AGENT', 'ADMIN')")
+    ResponseEntity<?> cancelReservation(@PathVariable String reservationCode) {
+        return new ResponseEntity<>(
+                new GenericResponseDTO("Successfully Cancelled",
+                        reservationService.cancelReservation(reservationCode)),
+                HttpStatus.OK);
     }
 
-    /*8. Confirm and purchase a reservation. This will result in multiple tickets
-            (one for each flight in the reservation)*/
     @PatchMapping("/reservations/{reservationCode}/payment")
-    public void purchaseReservation(@PathVariable String reservationCode, @RequestBody Reservation reservation){
-
+    ResponseEntity<?> purchaseReservation(@PathVariable String reservationCode) {
+        return new ResponseEntity<>(
+                new GenericResponseDTO("Purchase Successful",
+                        reservationService.purchaseReservation(reservationCode)),
+                HttpStatus.OK);
     }
 
-    //---------------------------------------------all crud operations------------------------------------------------
+    @GetMapping(value = "/reservations", params = "fetch-all-true")
+    @PreAuthorize("hasRole('ADMIN')")
+    ResponseEntity<?> getAllReservations() {
+        return new ResponseEntity<>(reservationService.getAllReservations(), HttpStatus.OK);
+    }
+
     @GetMapping("/reservations")
-    public void getAllReservations(){
-
+    @PreAuthorize("hasRole('ADMIN')")
+    ResponseEntity<?> getReservationsPage(Pageable pageable) {
+        return new ResponseEntity<>(reservationService.getAllReservations(pageable), HttpStatus.OK);
     }
 
-
+    // TODO: implement Update Reservation
 
 }
