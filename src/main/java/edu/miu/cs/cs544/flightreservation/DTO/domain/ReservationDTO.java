@@ -16,7 +16,11 @@ public class ReservationDTO {
     private List<FlightDTO> itineraryOfFlights;
     private LocalDateTime reservationDateTime;
 
-    public ReservationDTO(String reservationCode, PersonDTO passenger, List<String> itinerary, List<FlightDTO> itineraryOfFlights, LocalDateTime reservationDateTime) {
+    public ReservationDTO(String reservationCode,
+                          PersonDTO passenger,
+                          List<String> itinerary,
+                          List<FlightDTO> itineraryOfFlights,
+                          LocalDateTime reservationDateTime) {
         this.reservationCode = reservationCode;
         this.passenger = passenger;
         this.itinerary = itinerary;

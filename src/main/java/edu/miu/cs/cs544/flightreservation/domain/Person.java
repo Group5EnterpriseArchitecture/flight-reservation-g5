@@ -22,7 +22,11 @@ public class Person {
     @Embedded
     private Address residenceAddress;
 
-    public Person(String firstName, String lastName, LocalDate birthDate, String email, Address residenceAddress) {
+    public Person(String firstName,
+                  String lastName,
+                  LocalDate birthDate,
+                  String email,
+                  Address residenceAddress) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;

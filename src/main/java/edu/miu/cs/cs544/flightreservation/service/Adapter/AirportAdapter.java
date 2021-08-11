@@ -8,27 +8,23 @@ import edu.miu.cs.cs544.flightreservation.domain.Airport;
 public class AirportAdapter {
 
     public static Airport getAirportFromAirportDTO(AirportDTO airportDTO) {
-        Airport airport = new Airport(airportDTO.getCode(),
-                airportDTO.getName(), getAddressfromAddressDTO(airportDTO.getAddressDTO()));
-        return airport;
+        return new Airport(airportDTO.getCode(),
+                airportDTO.getName(), getAddressFromAddressDTO(airportDTO.getAddressDTO()));
     }
 
-    public static Address getAddressfromAddressDTO(AddressDTO addressDTO){
-        Address address = new Address(addressDTO.getStreet(),addressDTO.getCity(),addressDTO.getState(),
+    public static Address getAddressFromAddressDTO(AddressDTO addressDTO){
+        return new Address(addressDTO.getStreet(),addressDTO.getCity(),addressDTO.getState(),
                 addressDTO.getZip());
-        return address;
     }
 
     public static AirportDTO getAirportDTOFromAirport(Airport airport) {
-        AirportDTO airportDTO = new AirportDTO(airport.getCode(),
+        return new AirportDTO(airport.getCode(),
                 airport.getName(), getAddressDTOFromAddress(airport.getAddress()));
-        return airportDTO;
     }
 
     public static AddressDTO getAddressDTOFromAddress(Address address){
-        AddressDTO addressDTO = new AddressDTO(address.getStreet(),address.getCity(),address.getState(),
+        return new AddressDTO(address.getStreet(),address.getCity(),address.getState(),
                 address.getZip());
-        return addressDTO;
     }
 
 

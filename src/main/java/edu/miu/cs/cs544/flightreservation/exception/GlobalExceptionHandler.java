@@ -42,7 +42,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler
-    protected ResponseEntity<Object> handleResourceNotFound(ResourceNotFoundException ex, WebRequest request) {
+    protected ResponseEntity<Object> handleNoSuchElement(NoSuchElementFoundException ex, WebRequest request) {
         return handleExceptionInternal(ex, ex.getMessage(),
                 new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
@@ -54,11 +54,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     /**
-     * Generic RuntimeException Handler
+     * Generic extends RuntimeException Handler for Duplicate Date
      * This should result in an HTTP 400 level error.</p>
      */
     @ExceptionHandler(value = {UserAlreadyExistsException.class})
-    protected ResponseEntity<Object> handleConflict(RuntimeException ex) {
+    protected ResponseEntity<Object> handleDuplicateData(RuntimeException ex) {
 
         Map<String, Object> errorMap = new HashMap<>();
         errorMap.put("success", false);

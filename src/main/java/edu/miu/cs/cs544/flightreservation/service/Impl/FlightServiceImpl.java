@@ -2,7 +2,7 @@ package edu.miu.cs.cs544.flightreservation.service.Impl;
 
 import edu.miu.cs.cs544.flightreservation.DTO.domain.FlightDTO;
 import edu.miu.cs.cs544.flightreservation.domain.Flight;
-import edu.miu.cs.cs544.flightreservation.exception.ResourceNotFoundException;
+import edu.miu.cs.cs544.flightreservation.exception.NoSuchElementFoundException;
 import edu.miu.cs.cs544.flightreservation.repository.AirlineRepository;
 import edu.miu.cs.cs544.flightreservation.repository.AirportRepository;
 import edu.miu.cs.cs544.flightreservation.repository.FlightRepository;
@@ -57,14 +57,14 @@ public class FlightServiceImpl implements FlightService {
                     f.setDepartureTime(flight.getDepartureTime());
                     f.setOperateBy(flight.getOperateBy());
                     return flightRepository.save(f);
-                }).orElseThrow(() -> new ResourceNotFoundException("Flight with Flight number " + flightNumber + " NOT FOUND"));
+                }).orElseThrow(() -> new NoSuchElementFoundException("Flight with Flight number " + flightNumber + " NOT FOUND"));
         return FlightAdapter.getFlightDTOFromFlight(flightToBeUpdated);
     }
 
     @Override
     public void deleteFlight(String flightNumber) {
         Flight flightToBeDeleted = flightRepository.getFlightByFlightNumber(flightNumber)
-                .orElseThrow(() -> new ResourceNotFoundException("Flight with flightNumber " + flightNumber + " NOT FOUND"));
+                .orElseThrow(() -> new NoSuchElementFoundException("Flight with flightNumber " + flightNumber + " NOT FOUND"));
         flightRepository.delete(flightToBeDeleted);
     }
 

@@ -9,17 +9,15 @@ import java.util.stream.Collectors;
 public class AirlineAdapter {
 
     public static AirlineDTO getAirlineDTOFromAirline(Airline airline) {
-        AirlineDTO airlineDTO = new AirlineDTO(airline.getCode(), airline.getName(), airline.getHistory());
-        return airlineDTO;
+        return new AirlineDTO(airline.getCode(), airline.getName(), airline.getHistory());
     }
 
     public static Airline getAirlineFromAirlineDTO(AirlineDTO airlineDTO) {
-        Airline airline = new Airline(airlineDTO.getCode(), airlineDTO.getName(), airlineDTO.getHistory());
-        return airline;
+        return new Airline(airlineDTO.getCode(), airlineDTO.getName(), airlineDTO.getHistory());
     }
 
     public static List<AirlineDTO> getAirlineListDTOFromAirline(List<Airline> airlineList) {
-        return airlineList.stream().map(a -> getAirlineDTOFromAirline(a)).collect(Collectors.toList());
+        return airlineList.stream().map(AirlineAdapter::getAirlineDTOFromAirline).collect(Collectors.toList());
     }
 
 }

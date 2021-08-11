@@ -7,6 +7,7 @@ public enum EStatus {
     CANCELLED("CANCELLED"),
     EXPIRED("EXPIRED");
     private final String name;
+
     EStatus(String name) {
         this.name = name;
     }

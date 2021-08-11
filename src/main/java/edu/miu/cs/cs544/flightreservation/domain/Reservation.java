@@ -1,14 +1,15 @@
 package edu.miu.cs.cs544.flightreservation.domain;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class Reservation {
 
     @Id
@@ -28,22 +29,19 @@ public class Reservation {
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Person reservedBy;
 
-//    @ManyToOne(cascade = CascadeType.PERSIST)
     @Enumerated(EnumType.STRING)
     private EStatus status;
 
     @OneToMany(mappedBy = "reservation", cascade = CascadeType.PERSIST)
     private List<Ticket> tickets;
 
-    public Reservation() {
-        tickets = new ArrayList<>();
-    }
-
-    public void addTicket(Ticket ticket){
-        tickets.add(ticket);
-    }
-
-    public Reservation(String reservationCode, Person passenger, List<Flight> itinerary, LocalDateTime reservationDateTime, Person reservedBy, EStatus status, List<Ticket> tickets) {
+    public Reservation(String reservationCode,
+                       Person passenger,
+                       List<Flight> itinerary,
+                       LocalDateTime reservationDateTime,
+                       Person reservedBy,
+                       EStatus status,
+                       List<Ticket> tickets) {
         this.reservationCode = reservationCode;
         this.passenger = passenger;
         this.itinerary = itinerary;

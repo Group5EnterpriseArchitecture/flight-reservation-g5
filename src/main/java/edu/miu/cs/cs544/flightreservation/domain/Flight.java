@@ -28,7 +28,13 @@ public class Flight {
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Airline operateBy;
 
-    public Flight(String flightNumber, Integer capacity, Airport departure, Airport arrival, LocalDateTime departureTime, LocalDateTime arrivalTime, Airline operateBy) {
+    public Flight(String flightNumber,
+                  Integer capacity,
+                  Airport departure,
+                  Airport arrival,
+                  LocalDateTime departureTime,
+                  LocalDateTime arrivalTime,
+                  Airline operateBy) {
         this.flightNumber = flightNumber;
         this.capacity = capacity;
         this.departure = departure;

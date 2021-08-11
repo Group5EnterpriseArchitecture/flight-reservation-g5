@@ -2,7 +2,7 @@ package edu.miu.cs.cs544.flightreservation.service.Impl;
 
 import edu.miu.cs.cs544.flightreservation.DTO.domain.AirlineDTO;
 import edu.miu.cs.cs544.flightreservation.domain.Airline;
-import edu.miu.cs.cs544.flightreservation.exception.ResourceNotFoundException;
+import edu.miu.cs.cs544.flightreservation.exception.NoSuchElementFoundException;
 import edu.miu.cs.cs544.flightreservation.repository.AirlineRepository;
 import edu.miu.cs.cs544.flightreservation.service.Adapter.AirlineAdapter;
 import edu.miu.cs.cs544.flightreservation.service.AirlineService;
@@ -44,14 +44,14 @@ public class AirlineServiceImpl implements AirlineService {
                     a.setCode(airline.getCode());
                     a.setHistory(airline.getHistory());
                     return airlineRepository.save(a);
-                }).orElseThrow(() -> new ResourceNotFoundException("Airline with code " + code + " NOT FOUND"));
+                }).orElseThrow(() -> new NoSuchElementFoundException("Airline with code " + code + " NOT FOUND"));
         return AirlineAdapter.getAirlineDTOFromAirline(foundAirline);
     }
 
     @Override
     public void deleteAirline(String code) {
         Airline foundAirline = airlineRepository.findAirlineByCode(code)
-                .orElseThrow(() -> new ResourceNotFoundException("Airline with code " + code + " NOT FOUND"));
+                .orElseThrow(() -> new NoSuchElementFoundException("Airline with code " + code + " NOT FOUND"));
         airlineRepository.delete(foundAirline);
     }
 

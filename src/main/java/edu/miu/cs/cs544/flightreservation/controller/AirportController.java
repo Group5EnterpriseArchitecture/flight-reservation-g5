@@ -15,22 +15,22 @@ public class AirportController {
     private AirportService airportService;
 
     @GetMapping("/airports")
-    ResponseEntity<?> getAllAirports(){
+    ResponseEntity<?> getAllAirports() {
         return new ResponseEntity<>(airportService.getAllAirports(), HttpStatus.OK);
     }
 
     @PostMapping("/airports")
-    ResponseEntity<?> addAirports(@RequestBody Airport airport){
+    ResponseEntity<?> addAirports(@RequestBody Airport airport) {
         return new ResponseEntity<>(airportService.addAirport(airport), HttpStatus.CREATED);
     }
 
     @PutMapping("/airports/{code}")
-    ResponseEntity<?> updateAirports(@PathVariable String code, @RequestBody Airport airport){
+    ResponseEntity<?> updateAirports(@PathVariable String code, @RequestBody Airport airport) {
         return new ResponseEntity<>(airportService.updateAirport(code, airport), HttpStatus.OK);
     }
 
     @DeleteMapping("/airports/{code}")
-    ResponseEntity<?> deleteAirports(@PathVariable String code){
+    ResponseEntity<?> deleteAirports(@PathVariable String code) {
         airportService.deleteAirport(code);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

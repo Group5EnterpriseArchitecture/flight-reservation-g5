@@ -4,7 +4,7 @@ import edu.miu.cs.cs544.flightreservation.DTO.domain.ReservationDTO;
 import edu.miu.cs.cs544.flightreservation.DTO.domain.TicketDTO;
 import edu.miu.cs.cs544.flightreservation.domain.*;
 import edu.miu.cs.cs544.flightreservation.exception.InvalidOperationException;
-import edu.miu.cs.cs544.flightreservation.exception.ResourceNotFoundException;
+import edu.miu.cs.cs544.flightreservation.exception.NoSuchElementFoundException;
 import edu.miu.cs.cs544.flightreservation.repository.*;
 import edu.miu.cs.cs544.flightreservation.service.Adapter.ReservationAdapter;
 import edu.miu.cs.cs544.flightreservation.service.ReservationService;
@@ -47,7 +47,7 @@ public class ReservationServiceImpl implements ReservationService {
                 .stream()
                 .map(fn -> flightRepository
                         .getFlightByFlightNumber(fn)
-                        .orElseThrow(() -> new ResourceNotFoundException("Flight with flight number "
+                        .orElseThrow(() -> new NoSuchElementFoundException("Flight with flight number "
                                 + fn + " does not Exist")))
                 .collect(Collectors.toList());
 

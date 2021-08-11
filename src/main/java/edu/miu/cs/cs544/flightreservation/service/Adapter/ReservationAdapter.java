@@ -11,19 +11,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ReservationAdapter {
-    public static ReservationDTO getReservationDTOFromReservation(Reservation reservation){
-        List<String> itineraryCodes = reservation.getItinerary().stream().map(f -> f.getFlightNumber()).collect(Collectors.toList());
+    public static ReservationDTO getReservationDTOFromReservation(Reservation reservation) {
+        List<String> itineraryCodes = reservation.getItinerary()
+                .stream().map(Flight::getFlightNumber).collect(Collectors.toList());
         return new ReservationDTO(reservation.getReservationCode(),
                 PersonAdapter.getPersonDTOFromPerson(reservation.getPassenger()), itineraryCodes,
                 FlightAdapter.getListFlightDTOFromListFlight(reservation.getItinerary()),
                 reservation.getReservationDateTime());
     }
 
-    public static List<ReservationDTO> getListReservationDTOFromListReservation(List<Reservation> reservations){
-        return reservations.stream().map(r -> getReservationDTOFromReservation(r)).collect(Collectors.toList());
+    public static List<ReservationDTO> getListReservationDTOFromListReservation(List<Reservation> reservations) {
+        return reservations.stream().map(ReservationAdapter::getReservationDTOFromReservation).collect(Collectors.toList());
     }
 
-    public static Reservation getReservationFromReservationDTO(ReservationDTO reservationDTO, List<Flight> itinerary){
+    public static Reservation getReservationFromReservationDTO(ReservationDTO reservationDTO, List<Flight> itinerary) {
 
         Reservation reservation = new Reservation(
                 ReservationServiceImpl.generateCode(6),
