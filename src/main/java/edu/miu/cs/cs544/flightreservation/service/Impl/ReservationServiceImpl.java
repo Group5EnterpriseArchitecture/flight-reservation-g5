@@ -8,13 +8,12 @@ import edu.miu.cs.cs544.flightreservation.exception.NoSuchElementFoundException;
 import edu.miu.cs.cs544.flightreservation.repository.*;
 import edu.miu.cs.cs544.flightreservation.service.Adapter.ReservationAdapter;
 import edu.miu.cs.cs544.flightreservation.service.ReservationService;
+import edu.miu.cs.cs544.flightreservation.utils.Randomizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -73,48 +72,50 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public ReservationDTO getOwnReservationDetails(String reservationCode, String username) {
         Long personID = userCredentialsRepository.getPersonIdByUsername(username);
-        Reservation reservation = reservationRepository.getReservationByReservationCode(reservationCode);
-        if (Objects.equals(reservation.getReservedBy().getId(), personID)) {
-            return ReservationAdapter.getReservationDTOFromReservation(
-                    reservationRepository.getReservationByReservationCode(reservationCode));
-        }
-        return new ReservationDTO();
+
+        Reservation reservation = reservationRepository.getOwnReservationDetails(reservationCode, personID)
+                .orElseThrow(() -> new NoSuchElementFoundException("Reservation with code " + reservationCode + " NOT FOUND"));
+
+        return ReservationAdapter.getReservationDTOFromReservation(reservation);
+    }
+
+    @Override
+    public ReservationDTO getReservationByCode(String reservationCode) {
+        Reservation reservation = reservationRepository.getReservationByReservationCode(reservationCode)
+                .orElseThrow(() -> new NoSuchElementFoundException("Reservation with code " + reservationCode + " NOT FOUND"));
+        return ReservationAdapter.getReservationDTOFromReservation(reservation);
     }
 
     @Override
     public ReservationDTO cancelReservation(String reservationCode) {
-        Reservation reservation = reservationRepository.getReservationByReservationCode(reservationCode);
+        Reservation reservation = reservationRepository.getReservationByReservationCode(reservationCode)
+                .orElseThrow(() -> new NoSuchElementFoundException("Reservation with code " + reservationCode + " NOT FOUND"));
+
         if (!reservation.getStatus().equals(EStatus.PENDING)) {
-            return null;
+            throw new InvalidOperationException("Cannot Cancel Reservation. Status is " + reservation.getStatus());
         }
+
         reservation.setStatus(EStatus.CANCELLED);
         return ReservationAdapter.getReservationDTOFromReservation(reservation);
     }
 
     @Override
     public List<TicketDTO> purchaseReservation(String reservationCode) {
-        Reservation reservation = reservationRepository.getReservationByReservationCode(reservationCode);
+        Reservation reservation = reservationRepository.getReservationByReservationCode(reservationCode)
+                .orElseThrow(() -> new NoSuchElementFoundException("Reservation with code " + reservationCode + " NOT FOUND"));
+
         if (!reservation.getStatus().equals(EStatus.PENDING)) {
             throw new InvalidOperationException("Cannot purchase Reservation. Status is " + reservation.getStatus());
         }
+
+        // Pay for reservation (Could call a 3rd party Service)
         reservation.setStatus(EStatus.PAID);
-        List<Ticket> tickets = reservation.getItinerary().stream().map(f -> new Ticket(generateCode(20),
-                reservation, f.getDepartureTime(), f)).collect(Collectors.toList());
-        ticketRepository.saveAll(tickets);
-        return tickets.stream().map(TicketDTO::new).collect(Collectors.toList());
 
-    }
-
-    /**
-     * Static method to generate a random ticket Number and Reservation Code
-     *
-     * @author Eskender & Henok
-     */
-
-    public static String generateCode(int size) {
-        String randomCode = UUID.randomUUID().toString();
-        randomCode = randomCode.replace("-", "C0G3");
-        return randomCode.substring(0, size);
+        List<Ticket> tickets = reservation.getItinerary()
+                .stream()
+                .map(f -> new Ticket(Randomizer.generateRandomDigits(), reservation, f.getDepartureTime(), f))
+                .collect(Collectors.toList());
+        return ticketRepository.saveAll(tickets).stream().map(TicketDTO::new).collect(Collectors.toList());
     }
 
 

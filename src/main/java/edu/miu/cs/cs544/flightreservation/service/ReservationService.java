@@ -12,4 +12,5 @@ public interface ReservationService {
     ReservationDTO cancelReservation(String reservationCode);
     List<TicketDTO> purchaseReservation(String reservationCode);
     ReservationDTO getOwnReservationDetails(String reservationCode, String username);
+    ReservationDTO getReservationByCode(String reservationCode);
 }

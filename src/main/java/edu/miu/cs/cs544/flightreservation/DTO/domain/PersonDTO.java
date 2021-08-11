@@ -19,6 +19,7 @@ public class PersonDTO {
     private LocalDate birthDate;
     @Email
     private String email;
+    @NotNull
     private AddressDTO residenceAddressDTO;
 
     public PersonDTO(String firstName, String lastName, LocalDate birthDate, String email, AddressDTO residenceAddressDTO) {

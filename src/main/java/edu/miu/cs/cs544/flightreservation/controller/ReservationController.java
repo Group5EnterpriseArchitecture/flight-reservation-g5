@@ -1,6 +1,7 @@
 package edu.miu.cs.cs544.flightreservation.controller;
 
 import edu.miu.cs.cs544.flightreservation.DTO.domain.ReservationDTO;
+import edu.miu.cs.cs544.flightreservation.DTO.security.response.GenericResponseDTO;
 import edu.miu.cs.cs544.flightreservation.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,18 +28,19 @@ public class ReservationController {
                 HttpStatus.OK);
     }
 
-    //5. View details of a reservation (flights, departure times, etc.)
-    @GetMapping("/user/reservations/{reservationCode}")
-    ResponseEntity<?> getOwnReservationDetails(@PathVariable String reservationCode) {
+    // Publicly accessible
+    @GetMapping("/reservations/{reservationCode}")
+    ResponseEntity<?> getReservationDetailsByCode(@PathVariable String reservationCode) {
         return new ResponseEntity<>(
-                reservationService.getOwnReservationDetails(reservationCode, null),
+                reservationService.getReservationByCode(reservationCode),
                 HttpStatus.OK);
     }
 
-    // Accessing details of a reservation onl if done by this agent
-    @GetMapping("/agent/reservations/{reservationCode}")
-    public ReservationDTO getOwnReservationDetailsForAgent(@PathVariable String reservationCode,
-                                                           Authentication authentication) {
+    // For logged-in Users only
+    @GetMapping("/user/reservations/{reservationCode}")
+    @PreAuthorize("hasAnyRole('AGENT', 'ADMIN', 'PASSENGER')")
+    public ReservationDTO getOwnReservationDetails(@PathVariable String reservationCode,
+                                                   Authentication authentication) {
         return reservationService.getOwnReservationDetails(reservationCode, authentication.getName());
     }
 
@@ -60,9 +62,11 @@ public class ReservationController {
 
     //7. Cancel a reservation
     @PatchMapping("/reservations/{reservationCode}/cancellation")
+    @PreAuthorize("hasAnyRole('PASSENGER', 'AGENT', 'ADMIN')")
     ResponseEntity<?> cancelReservation(@PathVariable String reservationCode) {
         return new ResponseEntity<>(
-                reservationService.cancelReservation(reservationCode),
+                new GenericResponseDTO("Successfully Cancelled",
+                        reservationService.cancelReservation(reservationCode)),
                 HttpStatus.OK);
     }
 
@@ -71,14 +75,18 @@ public class ReservationController {
     @PatchMapping("/reservations/{reservationCode}/payment")
     ResponseEntity<?> purchaseReservation(@PathVariable String reservationCode) {
         return new ResponseEntity<>(
-                reservationService.purchaseReservation(reservationCode),
+                new GenericResponseDTO("Purchase Successful",
+                        reservationService.purchaseReservation(reservationCode)),
                 HttpStatus.OK);
     }
 
-    //---------------------------------------------all crud operations------------------------------------------------
+
     @GetMapping("/reservations")
     @PreAuthorize("hasRole('ADMIN')")
     ResponseEntity<?> getAllReservations() {
         return new ResponseEntity<>(reservationService.getAllReservations(), HttpStatus.OK);
     }
+
+    // TODO: implement Update Reservation
+
 }

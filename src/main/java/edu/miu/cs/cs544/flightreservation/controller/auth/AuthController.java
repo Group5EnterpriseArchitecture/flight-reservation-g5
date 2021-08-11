@@ -6,6 +6,7 @@ import edu.miu.cs.cs544.flightreservation.security.service.AuthenticationService
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,7 +25,10 @@ public class AuthController {
     }
 
     @PostMapping("/register")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequestDTO request) {
         return new ResponseEntity<>(authenticationService.registerUser(request), HttpStatus.OK);
     }
+
+    // TODO: Sign up controller
 }

@@ -4,7 +4,7 @@ import edu.miu.cs.cs544.flightreservation.DTO.domain.ReservationDTO;
 import edu.miu.cs.cs544.flightreservation.domain.EStatus;
 import edu.miu.cs.cs544.flightreservation.domain.Flight;
 import edu.miu.cs.cs544.flightreservation.domain.Reservation;
-import edu.miu.cs.cs544.flightreservation.service.Impl.ReservationServiceImpl;
+import edu.miu.cs.cs544.flightreservation.utils.Randomizer;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,7 +27,7 @@ public class ReservationAdapter {
     public static Reservation getReservationFromReservationDTO(ReservationDTO reservationDTO, List<Flight> itinerary) {
 
         Reservation reservation = new Reservation(
-                ReservationServiceImpl.generateCode(6),
+                Randomizer.generateAlphaNumericCode(6),
                 PersonAdapter.getPersonFromPersonDTO(reservationDTO.getPassenger()),
                 itinerary,
                 reservationDTO.getReservationDateTime(),

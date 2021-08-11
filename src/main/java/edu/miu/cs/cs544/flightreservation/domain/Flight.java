@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @NoArgsConstructor
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = "flightNumber")})
 public class Flight {
 
     @Id

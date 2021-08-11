@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 public class AirlineDTO {
 
     @NotNull
-    @Size(min = 2, max = 3)
+    @Size(min = 2, max = 2)
     private String code;
     @Size(max = 100)
     private String name;

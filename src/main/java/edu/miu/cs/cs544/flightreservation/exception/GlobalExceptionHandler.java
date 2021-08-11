@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,4 +70,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler
+    protected ResponseEntity<Object> handleDuplicateKeyException(SQLIntegrityConstraintViolationException ex, WebRequest request) {
+        return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
 }

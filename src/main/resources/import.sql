@@ -2,24 +2,24 @@ INSERT INTO flightreservation.role (`name`) VALUES ('ROLE_ADMIN');
 INSERT INTO flightreservation.role (`name`) VALUES ('ROLE_PASSENGER');
 INSERT INTO flightreservation.role (`name`) VALUES ('ROLE_AGENT');
 
-INSERT INTO flightreservation.airline (id, code,`name`) VALUES (2,'GNL','135 Airways');
-INSERT INTO flightreservation.airline (id, code,`name`) VALUES (3,'RNX','1Time Airline');
-INSERT INTO flightreservation.airline (id, code,`name`) VALUES (4,'WYT','2 Sqn No 1 Elementary Flying Training School');
-INSERT INTO flightreservation.airline (id, code,`name`) VALUES (5,'TFU','213 Flight Unit');
-INSERT INTO flightreservation.airline (id, code,`name`) VALUES (6,'CHD','223 Flight Unit State Airline');
-INSERT INTO flightreservation.airline (id, code,`name`) VALUES (7,'TTF','224th Flight Unit');
-INSERT INTO flightreservation.airline (id, code,`name`) VALUES (8,'TWF','247 Jet Ltd');
-INSERT INTO flightreservation.airline (id, code,`name`) VALUES (9,'SEC','3D Aviation');
-INSERT INTO flightreservation.airline (id, code,`name`) VALUES (10,'MLA','40-Mile Air');
-INSERT INTO flightreservation.airline (id, code,`name`) VALUES (11,'QRT','4D Air');
-INSERT INTO flightreservation.airline (id, code,`name`) VALUES (12,'THD','611897 Alberta Limited');
-INSERT INTO flightreservation.airline (id, code,`name`) VALUES (13,'AAA','Ansett Australia');
-INSERT INTO flightreservation.airline (id, code,`name`) VALUES (14,'AIA','Abacus International');
-INSERT INTO flightreservation.airline (id, code,`name`) VALUES (15,'AAB','Abelag Aviation');
-INSERT INTO flightreservation.airline (id, code,`name`) VALUES (16,'AAC','Army Air Corps');
-INSERT INTO flightreservation.airline (id, code,`name`) VALUES (17,'AAD','Aero Aviation Centre Ltd.');
-INSERT INTO flightreservation.airline (id, code,`name`) VALUES (18,'SII','Aero Servicios Ejecutivos Internacionales');
-INSERT INTO flightreservation.airline (id, code,`name`) VALUES (19,'BZS','Aero Biniza');
+INSERT INTO flightreservation.airline (id, code,`name`) VALUES (2,'GN','135 Airways');
+INSERT INTO flightreservation.airline (id, code,`name`) VALUES (3,'RN','1Time Airline');
+INSERT INTO flightreservation.airline (id, code,`name`) VALUES (4,'WY','2 Sqn No 1 Elementary Flying Training School');
+INSERT INTO flightreservation.airline (id, code,`name`) VALUES (5,'TF','213 Flight Unit');
+INSERT INTO flightreservation.airline (id, code,`name`) VALUES (6,'CH','223 Flight Unit State Airline');
+INSERT INTO flightreservation.airline (id, code,`name`) VALUES (7,'TT','224th Flight Unit');
+INSERT INTO flightreservation.airline (id, code,`name`) VALUES (8,'TW','247 Jet Ltd');
+INSERT INTO flightreservation.airline (id, code,`name`) VALUES (9,'SE','3D Aviation');
+INSERT INTO flightreservation.airline (id, code,`name`) VALUES (10,'ML','40-Mile Air');
+INSERT INTO flightreservation.airline (id, code,`name`) VALUES (11,'QR','4D Air');
+INSERT INTO flightreservation.airline (id, code,`name`) VALUES (12,'TH','611897 Alberta Limited');
+INSERT INTO flightreservation.airline (id, code,`name`) VALUES (13,'AA','Ansett Australia');
+INSERT INTO flightreservation.airline (id, code,`name`) VALUES (14,'AI','Abacus International');
+INSERT INTO flightreservation.airline (id, code,`name`) VALUES (15,'A2','Abelag Aviation');
+INSERT INTO flightreservation.airline (id, code,`name`) VALUES (16,'AA','Army Air Corps');
+INSERT INTO flightreservation.airline (id, code,`name`) VALUES (17,'A3','Aero Aviation Centre Ltd.');
+INSERT INTO flightreservation.airline (id, code,`name`) VALUES (18,'SI','Aero Servicios Ejecutivos Internacionales');
+INSERT INTO flightreservation.airline (id, code,`name`) VALUES (19,'BZ','Aero Biniza');
 
 INSERT INTO flightreservation.airport (id, city,`state`,street,zip,code,`name`) VALUES (2,'Madang','kentucky','kjh',9865,'MAG','Madang');
 INSERT INTO flightreservation.airport (id, city,`state`,street,zip,code,`name`) VALUES (3,'Mount Hagen','new york','rty',5678,'HGU','Mount Hagen');
@@ -60,14 +60,27 @@ INSERT INTO flightreservation.airline_history (history,id) VALUES ('Canada',17);
 INSERT INTO flightreservation.airline_history (history,id) VALUES ('Mexico',18);
 INSERT INTO flightreservation.airline_history (history,id) VALUES ('Mexico',19);
 
+INSERT INTO flightReservation.Flight (id, arrivalTime, capacity, departureTime, flightNumber, arrival_id, departure_id, operateBy_id) VALUES (1, '2021-10-03 11:30:00', 100, '2021-10-03 10:00:00', 'RNX213', 3, 2, 3);
+INSERT INTO flightReservation.Flight (id, arrivalTime, capacity, departureTime, flightNumber, arrival_id, departure_id, operateBy_id) VALUES (2, '2021-10-03 11:30:00', 100, '2021-10-03 10:00:00', 'RNX212', 3, 2, 3);
+
 INSERT INTO flightReservation.Person (id, birthDate, email, firstName, lastName, city, state, street, zip) VALUES (1, null, 'admin@miu.edu', 'admin', 'ONE', null, null, null, null);
 INSERT INTO flightReservation.Person (id, birthDate, email, firstName, lastName, city, state, street, zip) VALUES (2, null, 'pass@miu.edu', 'jorge', 'ONE', null, null, null, null);
+INSERT INTO flightReservation.Person (id, birthDate, email, firstName, lastName, city, state, street, zip) VALUES (3, null, 'henok@miu.edu', 'Henok', 'Pass', '', '', '', '');
+INSERT INTO flightReservation.Person (id, birthDate, email, firstName, lastName, city, state, street, zip) VALUES (4, null, 'passenger@miu.edu', 'henok', 'ONE', null, null, null, null);
+INSERT INTO flightReservation.Person (id, birthDate, email, firstName, lastName, city, state, street, zip) VALUES (6, null, 'email@miu.edu', 'Henok', 'Pass', '', '', '', '');
+INSERT INTO flightReservation.Person (id, birthDate, email, firstName, lastName, city, state, street, zip) VALUES (7, null, 'seb@miu.edu', 'Sebastian', 'Pass', '', '', '', '');
+INSERT INTO flightReservation.Person (id, birthDate, email, firstName, lastName, city, state, street, zip) VALUES (9, null, 'kato@miu.edu', 'kato', 'ONE', null, null, null, null);
+INSERT INTO flightReservation.Person (id, birthDate, email, firstName, lastName, city, state, street, zip) VALUES (10, null, 'alvin@miu.edu', 'Alvin', 'Pass', '', '', '', '');
 
 INSERT INTO flightReservation.UserCredentials (id, password, username, role_id) VALUES (1, '$2a$10$kOMQ/peuZ4SU8YAslTMg6e0E612KucH.Rl7JQPqymb/7Crvq8k2TC', 'admin', 1);
 INSERT INTO flightReservation.UserCredentials (id, password, username, role_id) VALUES (2, '$2a$10$Rwis9weNh1hmxlY3IplC8.GeLrnctW4lRt9FxCoXuPgQ67gSj.P9e', 'passenger', 3);
+INSERT INTO flightReservation.UserCredentials (id, password, username, role_id) VALUES (3, '$2a$10$qv6ETf41GwqHmXKFfam7jeyPTXOExRP2fXeJF2.LCnXKjlJWhz/zO', 'henok', 2);
+INSERT INTO flightReservation.UserCredentials (id, password, username, role_id) VALUES (4, '$2a$10$0od2RGRnB6i23OsAmd2MD.L5mKHW8ojKsgouFqSmjoWNQYqYn21WG', 'kato', 3);
 
 INSERT INTO flightReservation.user_person (person_id, id) VALUES (1, 1);
 INSERT INTO flightReservation.user_person (person_id, id) VALUES (2, 2);
+INSERT INTO flightReservation.user_person (person_id, id) VALUES (4, 3);
+INSERT INTO flightReservation.user_person (person_id, id) VALUES (9, 4);
 
 
 

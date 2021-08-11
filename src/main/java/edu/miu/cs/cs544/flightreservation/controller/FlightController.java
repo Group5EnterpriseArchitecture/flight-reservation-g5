@@ -21,7 +21,6 @@ public class FlightController {
 
     //3. View list of flights between a departure and destination for a date
     @GetMapping("/flights")
-    @PreAuthorize("hasRole('ADMIN')")
     ResponseEntity<?> getFlightsFromToInaDate(
             @RequestParam(value = "departure", required = false) String departure,
             @RequestParam(value = "arrival", required = false) String arrival,
@@ -38,6 +37,7 @@ public class FlightController {
     }
 
     @PostMapping("/flights")
+    @PreAuthorize("hasRole('ADMIN')")
     ResponseEntity<?> addFlight(@RequestBody @Valid FlightDTO flightDTO) {
         return new ResponseEntity<>(flightService.addFlight(flightDTO), HttpStatus.CREATED);
 
@@ -50,6 +50,7 @@ public class FlightController {
     }
 
     @DeleteMapping("/flights/{flightNumber}")
+    @PreAuthorize("hasRole('ADMIN')")
     ResponseEntity<?> deleteFlight(@PathVariable String flightNumber) {
         flightService.deleteFlight(flightNumber);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
