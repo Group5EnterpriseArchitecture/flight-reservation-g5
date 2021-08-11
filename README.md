@@ -29,3 +29,7 @@
 ### Postman Tests
 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://www.getpostman.com/collections/4500b7865bd6ada668c4)
+
+### API Documentation
+
+Full API documentation can be found at [Group5 API Docs](https://documenter.getpostman.com/view/6621230/Tzz5tdY8#95821c0e-5256-4aa5-a251-9e85e87e1eaf)
