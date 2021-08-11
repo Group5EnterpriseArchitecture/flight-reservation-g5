@@ -4,6 +4,7 @@ import edu.miu.cs.cs544.flightreservation.DTO.security.request.LoginRequestDTO;
 import edu.miu.cs.cs544.flightreservation.DTO.security.request.SignupRequestDTO;
 import edu.miu.cs.cs544.flightreservation.security.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,11 +20,11 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequestDTO request) {
-        return ResponseEntity.ok(authenticationService.authenticateUser(request));
+        return new ResponseEntity<>(authenticationService.authenticateUser(request), HttpStatus.OK);
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequestDTO request) {
-        return ResponseEntity.ok(authenticationService.registerUser(request));
+        return new ResponseEntity<>(authenticationService.registerUser(request), HttpStatus.OK);
     }
 }

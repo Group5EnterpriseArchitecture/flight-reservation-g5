@@ -4,7 +4,7 @@ import edu.miu.cs.cs544.flightreservation.DTO.domain.AirportDTO;
 import edu.miu.cs.cs544.flightreservation.domain.Airport;
 import edu.miu.cs.cs544.flightreservation.exception.ResourceNotFoundException;
 import edu.miu.cs.cs544.flightreservation.repository.AirportRepository;
-import edu.miu.cs.cs544.flightreservation.service.AirportAdapter;
+import edu.miu.cs.cs544.flightreservation.service.Adapter.AirportAdapter;
 import edu.miu.cs.cs544.flightreservation.service.AirportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,6 @@ public class AirportServiceImpl implements AirportService {
                 .stream()
                 .map(AirportAdapter::getAirportDTOFromAirport)
                 .collect(Collectors.toList());
-
     }
 
     @Override
@@ -44,14 +43,14 @@ public class AirportServiceImpl implements AirportService {
                     a.setCode(airport.getCode());
                     a.setAddress(airport.getAddress());
                     return airportRepository.save(a);
-                }).orElseThrow(ResourceNotFoundException::new); // TODO: Handle this exception
+                }).orElseThrow(() -> new ResourceNotFoundException("Airport with code " + code + " NOT FOUND"));
         return AirportAdapter.getAirportDTOFromAirport(foundAirport);
     }
 
     @Override
     public void deleteAirport(String code) {
         Airport foundAirport = airportRepository.findAirportByCode(code)
-                .orElseThrow(ResourceNotFoundException::new);
+                .orElseThrow(() -> new ResourceNotFoundException("Airport with code " + code + " NOT FOUND"));
         airportRepository.delete(foundAirport);
     }
 

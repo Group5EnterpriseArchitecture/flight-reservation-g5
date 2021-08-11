@@ -4,7 +4,7 @@ import edu.miu.cs.cs544.flightreservation.DTO.domain.AirlineDTO;
 import edu.miu.cs.cs544.flightreservation.domain.Airline;
 import edu.miu.cs.cs544.flightreservation.exception.ResourceNotFoundException;
 import edu.miu.cs.cs544.flightreservation.repository.AirlineRepository;
-import edu.miu.cs.cs544.flightreservation.service.AirlineAdapter;
+import edu.miu.cs.cs544.flightreservation.service.Adapter.AirlineAdapter;
 import edu.miu.cs.cs544.flightreservation.service.AirlineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,6 +57,7 @@ public class AirlineServiceImpl implements AirlineService {
 
     @Override
     public List<AirlineDTO> getAllAirlinesDepartFromAirport(String departureAirportCode) {
-        return AirlineAdapter.getAirlineListDTOFromAirline(airlineRepository.getAllAirlinesDepartingFromAirport(departureAirportCode));
+        return AirlineAdapter.getAirlineListDTOFromAirline(
+                airlineRepository.getAllAirlinesDepartingFromAirport(departureAirportCode));
     }
 }

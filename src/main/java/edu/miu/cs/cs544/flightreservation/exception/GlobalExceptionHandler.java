@@ -49,7 +49,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      * Generic RuntimeException Handler
      * This should result in an HTTP 400 level error.</p>
      */
-    @ExceptionHandler(value = {UserAlreadyExistsException.class})
+    @ExceptionHandler(value = {UserAlreadyExistsException.class, IllegalStateException.class})
     protected ResponseEntity<Object> handleConflict(RuntimeException ex, WebRequest request) {
 
         return handleExceptionInternal(ex, ex.getMessage(),

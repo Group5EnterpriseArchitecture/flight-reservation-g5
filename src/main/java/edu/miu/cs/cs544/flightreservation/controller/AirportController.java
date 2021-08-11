@@ -1,12 +1,11 @@
 package edu.miu.cs.cs544.flightreservation.controller;
 
-import edu.miu.cs.cs544.flightreservation.DTO.domain.AirportDTO;
 import edu.miu.cs.cs544.flightreservation.domain.Airport;
 import edu.miu.cs.cs544.flightreservation.service.AirportService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -16,29 +15,23 @@ public class AirportController {
     private AirportService airportService;
 
     @GetMapping("/airports")
-    public List<AirportDTO> getAllAirports(){
-        return airportService.getAllAirports();
+    ResponseEntity<?> getAllAirports(){
+        return new ResponseEntity<>(airportService.getAllAirports(), HttpStatus.OK);
     }
 
     @PostMapping("/airports")
-    public AirportDTO addAirports(@RequestBody Airport airport){
-        return airportService.addAirport(airport);
+    ResponseEntity<?> addAirports(@RequestBody Airport airport){
+        return new ResponseEntity<>(airportService.addAirport(airport), HttpStatus.CREATED);
     }
 
     @PutMapping("/airports/{code}")
-    public AirportDTO updateAirports(@PathVariable String code, @RequestBody Airport airport){
-        return airportService.updateAirport(code, airport);
+    ResponseEntity<?> updateAirports(@PathVariable String code, @RequestBody Airport airport){
+        return new ResponseEntity<>(airportService.updateAirport(code, airport), HttpStatus.OK);
     }
 
     @DeleteMapping("/airports/{code}")
-    public void deleteAirports(@PathVariable String code){
+    ResponseEntity<?> deleteAirports(@PathVariable String code){
         airportService.deleteAirport(code);
-    }
-
-
-    //2. View list of airlines flying out of an airport (search by airport three letter code)
-    @GetMapping("/airports/{airportCode}/airlines")
-    public void getAirlinesFromAirport(@PathVariable String airportCode){
-
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

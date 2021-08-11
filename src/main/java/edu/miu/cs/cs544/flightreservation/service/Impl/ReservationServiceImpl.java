@@ -3,16 +3,15 @@ package edu.miu.cs.cs544.flightreservation.service.Impl;
 import edu.miu.cs.cs544.flightreservation.DTO.domain.ReservationDTO;
 import edu.miu.cs.cs544.flightreservation.DTO.domain.TicketDTO;
 import edu.miu.cs.cs544.flightreservation.domain.*;
+import edu.miu.cs.cs544.flightreservation.exception.ResourceNotFoundException;
 import edu.miu.cs.cs544.flightreservation.repository.*;
-import edu.miu.cs.cs544.flightreservation.service.ReservationAdapter;
+import edu.miu.cs.cs544.flightreservation.service.Adapter.ReservationAdapter;
 import edu.miu.cs.cs544.flightreservation.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,9 +40,17 @@ public class ReservationServiceImpl implements ReservationService {
 
     public ReservationDTO addReservation(ReservationDTO reservationDTO, String username) {
         Reservation reservation;
-        List<Flight> itinerary = reservationDTO.getItinerary().stream().map(fn -> flightRepository.getFlightByFlightNumber(fn)).collect(Collectors.toList());
+        List<Flight> itinerary = reservationDTO.getItinerary()
+                .stream()
+                .map(fn -> {
+                    Optional<Flight> flightByFlightNumber = flightRepository.getFlightByFlightNumber(fn);
+                    return flightByFlightNumber.orElseThrow(
+                            () -> new ResourceNotFoundException("Flight with flight number " + fn + " does not Exist"));
+                })
+                .collect(Collectors.toList());
 
-        if(username != null) {
+        // If user is Logged in, ReservedBy === Logged in User
+        if (username != null) {
             Long personID = userCredentialsRepository.getPersonIdByUsername(username);
             Person person = personRepository.getPersonById(personID);
             reservation = ReservationAdapter.getReservationFromReservationDTO(reservationDTO, itinerary);
@@ -65,8 +72,9 @@ public class ReservationServiceImpl implements ReservationService {
     public ReservationDTO getOwnReservationDetails(String reservationCode, String username) {
         Long personID = userCredentialsRepository.getPersonIdByUsername(username);
         Reservation reservation = reservationRepository.getReservationByReservationCode(reservationCode);
-        if(reservation.getReservedBy().getId() == personID) {
-            return ReservationAdapter.getReservationDTOFromReservation(reservationRepository.getReservationByReservationCode(reservationCode));
+        if (Objects.equals(reservation.getReservedBy().getId(), personID)) {
+            return ReservationAdapter.getReservationDTOFromReservation(
+                    reservationRepository.getReservationByReservationCode(reservationCode));
         }
         return new ReservationDTO();
     }
@@ -85,7 +93,7 @@ public class ReservationServiceImpl implements ReservationService {
     public List<TicketDTO> purchaseReservation(String reservationCode) {
         Reservation reservation = reservationRepository.getReservationByReservationCode(reservationCode);
         if (!reservation.getStatus().equals(EStatus.PENDING)) {
-            return new ArrayList<>();
+            throw new IllegalStateException("Cannot purchase Reservation. Status is " + reservation.getStatus());
         }
         reservation.setStatus(EStatus.PAID);
         List<Ticket> tickets = reservation.getItinerary().stream().map(f -> new Ticket(generateCode(20),
@@ -95,12 +103,16 @@ public class ReservationServiceImpl implements ReservationService {
 
     }
 
+    /**
+     * Static method to generate a random ticket Number and Reservation Code
+     *
+     * @author Eskender & Henok
+     */
 
     public static String generateCode(int size) {
         String randomCode = UUID.randomUUID().toString();
-        randomCode.replace("-", "C0G3");
-        String code = randomCode.substring(0, size);
-        return code;
+        randomCode = randomCode.replace("-", "C0G3");
+        return randomCode.substring(0, size);
     }
 
 
