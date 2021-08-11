@@ -16,12 +16,6 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
-#  sql:
-#    init:
-#      platform: mysql
-#      mode: always
-#      data-locations: my-data.txt
-#      schema-locations: schema.sql
 server:
   port: 8080
 
@@ -30,3 +24,13 @@ flight-reservation:
   app:
     jwtExpirationMs: 86400000
     jwtSecret: superLongSECRETKeyThatWeShallPutIntoAnENVIRONMENTvariable
+
+management:
+  endpoints:
+    enabled-by-default: true
+    web.exposure.include: prometheus, health, info, metric
+  endpoint:
+    info:
+      enabled: true
+    health:
+      show-details: always
