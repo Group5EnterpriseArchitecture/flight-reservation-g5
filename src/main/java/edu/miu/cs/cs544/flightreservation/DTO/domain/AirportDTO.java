@@ -15,7 +15,7 @@ public class AirportDTO {
     @Size(min = 3, max = 3)
     private String code;
     @NotNull
-    @Size(min = 100)
+    @Size(max = 100)
     private String name;
     private AddressDTO addressDTO;
 
