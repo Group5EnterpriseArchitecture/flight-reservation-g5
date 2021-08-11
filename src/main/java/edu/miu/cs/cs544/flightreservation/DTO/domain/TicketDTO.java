@@ -4,13 +4,15 @@ import edu.miu.cs.cs544.flightreservation.domain.Ticket;
 import edu.miu.cs.cs544.flightreservation.service.Adapter.FlightAdapter;
 import lombok.Data;
 
-import javax.validation.constraints.Max;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 
 @Data
 public class TicketDTO {
-    @Max(20)
+    @Pattern(regexp = "[0-9]{20}")
     private String ticketNumber;
+    @FutureOrPresent
     private LocalDateTime flightDate;
     private FlightDTO flight;
 

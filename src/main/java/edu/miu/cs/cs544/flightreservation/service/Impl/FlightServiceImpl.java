@@ -1,6 +1,8 @@
 package edu.miu.cs.cs544.flightreservation.service.Impl;
 
 import edu.miu.cs.cs544.flightreservation.DTO.domain.FlightDTO;
+import edu.miu.cs.cs544.flightreservation.domain.Airline;
+import edu.miu.cs.cs544.flightreservation.domain.Airport;
 import edu.miu.cs.cs544.flightreservation.domain.Flight;
 import edu.miu.cs.cs544.flightreservation.exception.NoSuchElementFoundException;
 import edu.miu.cs.cs544.flightreservation.repository.AirlineRepository;
@@ -32,7 +34,10 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public FlightDTO addFlight(FlightDTO flightDTO) {
-        Flight flightToBeAdded = FlightAdapter.getFlightFromFlightDTO(flightDTO, airportRepository, airlineRepository);
+        Airport airportArrival = airportRepository.getAirportByCode(flightDTO.getArrivalAirportCode());
+        Airport airportDeparture = airportRepository.getAirportByCode(flightDTO.getDepartureAirportCode());
+        Airline airline = airlineRepository.getAirlineByCode(flightDTO.getOperateBy());
+        Flight flightToBeAdded = FlightAdapter.getFlightFromFlightDTO(flightDTO, airportArrival, airportDeparture, airline);
         return FlightAdapter.getFlightDTOFromFlight(flightRepository.save(flightToBeAdded));
     }
 
@@ -46,7 +51,13 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public FlightDTO updateFlight(String flightNumber, Flight flight) {
+    public FlightDTO updateFlight(String flightNumber, FlightDTO flightDTO) {
+        Airport airportArrival = airportRepository.getAirportByCode(flightDTO.getArrivalAirportCode());
+        Airport airportDeparture = airportRepository.getAirportByCode(flightDTO.getDepartureAirportCode());
+        Airline airline = airlineRepository.getAirlineByCode(flightDTO.getOperateBy());
+
+        Flight flight = FlightAdapter.getFlightFromFlightDTO(flightDTO, airportArrival, airportDeparture, airline);
+
         Flight flightToBeUpdated = flightRepository.getFlightByFlightNumber(flightNumber)
                 .map(f -> {
                     f.setFlightNumber(flight.getFlightNumber());

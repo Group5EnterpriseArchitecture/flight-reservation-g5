@@ -30,13 +30,14 @@ public class AirportServiceImpl implements AirportService {
     }
 
     @Override
-    public AirportDTO addAirport(Airport airport) {
-        airportRepository.save(airport);
-        return AirportAdapter.getAirportDTOFromAirport(airport);
+    public AirportDTO addAirport(AirportDTO airportDTO) {
+        Airport airport = AirportAdapter.getAirportFromAirportDTO(airportDTO);
+        return AirportAdapter.getAirportDTOFromAirport(airportRepository.save(airport));
     }
 
     @Override
-    public AirportDTO updateAirport(String code, Airport airport) {
+    public AirportDTO updateAirport(String code, AirportDTO airportDTO) {
+        Airport airport = AirportAdapter.getAirportFromAirportDTO(airportDTO);
         Airport foundAirport = airportRepository.findAirportByCode(code)
                 .map(a -> {
                     a.setName(airport.getName());

@@ -9,6 +9,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api")
 public class ReservationController {
@@ -42,7 +44,7 @@ public class ReservationController {
 
     //6. Make a reservation (note: payload will be a list of flights)
     @PostMapping("/reservations")
-    ResponseEntity<?> addReservation(@RequestBody ReservationDTO reservationDTO) {
+    ResponseEntity<?> addReservation(@RequestBody @Valid ReservationDTO reservationDTO) {
         return new ResponseEntity<>(
                 reservationService.addReservation(reservationDTO, null),
                 HttpStatus.CREATED);
@@ -50,7 +52,7 @@ public class ReservationController {
 
     @PostMapping("/user/reservations")
     @PreAuthorize("hasAnyRole('ADMIN', 'PASSENGER', 'AGENT')")
-    ResponseEntity<?> addLoggedInReservation(@RequestBody ReservationDTO reservationDTO, Authentication authentication) {
+    ResponseEntity<?> addLoggedInReservation(@RequestBody @Valid ReservationDTO reservationDTO, Authentication authentication) {
         return new ResponseEntity<>(
                 reservationService.addReservation(reservationDTO, authentication.getName()),
                 HttpStatus.CREATED);

@@ -1,7 +1,6 @@
 package edu.miu.cs.cs544.flightreservation.controller;
 
 import edu.miu.cs.cs544.flightreservation.DTO.domain.FlightDTO;
-import edu.miu.cs.cs544.flightreservation.domain.Flight;
 import edu.miu.cs.cs544.flightreservation.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -44,10 +43,10 @@ public class FlightController {
 
     }
 
-    @PutMapping("/flights/{flightNumber}") // TODO: Use a DTO
+    @PutMapping("/flights/{flightNumber}")
     @PreAuthorize("hasRole('ADMIN')")
-    ResponseEntity<?> updateFlight(@PathVariable String flightNumber, @RequestBody Flight flight) {
-        return new ResponseEntity<>(flightService.updateFlight(flightNumber, flight), HttpStatus.OK);
+    ResponseEntity<?> updateFlight(@PathVariable String flightNumber, @RequestBody @Valid FlightDTO flightDTO) {
+        return new ResponseEntity<>(flightService.updateFlight(flightNumber, flightDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("/flights/{flightNumber}")

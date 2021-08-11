@@ -31,13 +31,14 @@ public class AirlineServiceImpl implements AirlineService {
     }
 
     @Override
-    public AirlineDTO addAirline(Airline airline) {
-        airlineRepository.save(airline);
-        return AirlineAdapter.getAirlineDTOFromAirline(airline);
+    public AirlineDTO addAirline(AirlineDTO airlineDTO) {
+        Airline airline = AirlineAdapter.getAirlineFromAirlineDTO(airlineDTO);
+        return AirlineAdapter.getAirlineDTOFromAirline(airlineRepository.save(airline));
     }
 
     @Override
-    public AirlineDTO updateAirline(String code, Airline airline) {
+    public AirlineDTO updateAirline(String code, AirlineDTO airlineDTO) {
+        Airline airline = AirlineAdapter.getAirlineFromAirlineDTO(airlineDTO);
         Airline foundAirline = airlineRepository.findAirlineByCode(code)
                 .map(a -> {
                     a.setName(airline.getName());

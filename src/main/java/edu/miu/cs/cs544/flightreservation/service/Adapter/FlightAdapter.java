@@ -4,8 +4,6 @@ import edu.miu.cs.cs544.flightreservation.DTO.domain.FlightDTO;
 import edu.miu.cs.cs544.flightreservation.domain.Airline;
 import edu.miu.cs.cs544.flightreservation.domain.Airport;
 import edu.miu.cs.cs544.flightreservation.domain.Flight;
-import edu.miu.cs.cs544.flightreservation.repository.AirlineRepository;
-import edu.miu.cs.cs544.flightreservation.repository.AirportRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,10 +21,8 @@ public class FlightAdapter {
                 flight.getDepartureTime(), flight.getArrivalTime(), operateBy);
     }
 
-    public static Flight getFlightFromFlightDTO(FlightDTO flightDTO, AirportRepository airportRepository, AirlineRepository airlineRepository) {
-        Airport airportArrival = airportRepository.getAirportByCode(flightDTO.getArrivalAirportCode());
-        Airport airportDeparture = airportRepository.getAirportByCode(flightDTO.getDepartureAirportCode());
-        Airline airline = airlineRepository.getAirlineByCode(flightDTO.getOperateBy());
+    public static Flight getFlightFromFlightDTO(FlightDTO flightDTO, Airport airportArrival,
+                                                Airport airportDeparture, Airline airline) {
         return new Flight(
                 flightDTO.getFlightNumber(),
                 flightDTO.getCapacity(),
@@ -39,13 +35,13 @@ public class FlightAdapter {
         return flights.stream().map(FlightAdapter::getFlightDTOFromFlight).collect(Collectors.toList());
     }
 
-    public static List<Flight> getListFlightFromListFlightDTO(List<FlightDTO> flights,
-                                                              AirportRepository airportRepository,
-                                                              AirlineRepository airlineRepository) {
-        return flights
-                .stream()
-                .map(f -> getFlightFromFlightDTO(f, airportRepository, airlineRepository))
-                .collect(Collectors.toList());
-    }
+//    public static List<Flight> getListFlightFromListFlightDTO(List<FlightDTO> flights,
+//                                                              AirportRepository airportRepository,
+//                                                              AirlineRepository airlineRepository) {
+//        return flights
+//                .stream()
+//                .map(f -> getFlightFromFlightDTO(f, airportRepository, airlineRepository))
+//                .collect(Collectors.toList());
+//    }
 
 }
