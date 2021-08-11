@@ -15,7 +15,7 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @GeneratedValue
+    @Column(length = 6)
     private String reservationCode;
 
     @ManyToOne(cascade = CascadeType.PERSIST)

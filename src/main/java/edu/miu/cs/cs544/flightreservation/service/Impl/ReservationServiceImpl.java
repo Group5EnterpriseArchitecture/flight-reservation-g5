@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -61,8 +62,13 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public ReservationDTO getOwnReservationDetails(String reservationCode) {
-        return ReservationAdapter.getReservationDTOFromReservation(reservationRepository.getReservationByReservationCode(reservationCode));
+    public ReservationDTO getOwnReservationDetails(String reservationCode, String username) {
+        Long personID = userCredentialsRepository.getPersonIdByUsername(username);
+        Reservation reservation = reservationRepository.getReservationByReservationCode(reservationCode);
+        if(reservation.getReservedBy().getId() == personID) {
+            return ReservationAdapter.getReservationDTOFromReservation(reservationRepository.getReservationByReservationCode(reservationCode));
+        }
+        return new ReservationDTO();
     }
 
     @Override
@@ -82,11 +88,20 @@ public class ReservationServiceImpl implements ReservationService {
             return new ArrayList<>();
         }
         reservation.setStatus(EStatus.PAID);
-        List<Ticket> tickets = reservation.getItinerary().stream().map(f -> new Ticket(String.valueOf(Math.random()),
+        List<Ticket> tickets = reservation.getItinerary().stream().map(f -> new Ticket(generateCode(20),
                 reservation, f.getDepartureTime(), f)).collect(Collectors.toList());
         ticketRepository.saveAll(tickets);
         return tickets.stream().map(TicketDTO::new).collect(Collectors.toList());
 
     }
+
+
+    public static String generateCode(int size) {
+        String randomCode = UUID.randomUUID().toString();
+        randomCode.replace("-", "C0G3");
+        String code = randomCode.substring(0, size);
+        return code;
+    }
+
 
 }
