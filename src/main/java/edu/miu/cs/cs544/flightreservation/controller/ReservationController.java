@@ -27,7 +27,13 @@ public class ReservationController {
     //5. View details of a reservation (flights, departure times, etc.)
     @GetMapping("/user/reservations/{reservationCode}")
     public ReservationDTO getOwnReservationDetails(@PathVariable String reservationCode){
-        return reservationService.getOwnReservationDetails(reservationCode);
+        return reservationService.getOwnReservationDetails(reservationCode, null);
+    }
+
+    // Accessing details of a reservation onl if done by this agent
+    @GetMapping("/agent/reservations/{reservationCode}")
+    public ReservationDTO getOwnReservationDetailsForAgent(@PathVariable String reservationCode, Authentication authentication){
+        return reservationService.getOwnReservationDetails(reservationCode, authentication.getName());
     }
 
     //6. Make a reservation (note: payload will be a list of flights)

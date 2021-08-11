@@ -11,5 +11,5 @@ public interface ReservationService {
     List<ReservationDTO> getOwnReservations(String username);
     ReservationDTO cancelReservation(String reservationCode);
     List<TicketDTO> purchaseReservation(String reservationCode);
-    ReservationDTO getOwnReservationDetails(String username);
+    ReservationDTO getOwnReservationDetails(String reservationCode, String username);
 }
