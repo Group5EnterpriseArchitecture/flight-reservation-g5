@@ -68,4 +68,5 @@ public class AirlineServiceImpl implements AirlineService {
         return AirlineAdapter.getAirlineListDTOFromAirline(
                 airlineRepository.getAllAirlinesDepartingFromAirport(departureAirportCode));
     }
+
 }

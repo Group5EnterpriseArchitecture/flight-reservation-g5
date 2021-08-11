@@ -11,4 +11,5 @@ public class AddressAdapter {
     public static Address getAddressFromAddressDTO(AddressDTO addressDTO) {
         return new Address(addressDTO.getStreet(), addressDTO.getCity(), addressDTO.getState(), addressDTO.getZip());
     }
+
 }

@@ -11,6 +11,8 @@ import edu.miu.cs.cs544.flightreservation.repository.FlightRepository;
 import edu.miu.cs.cs544.flightreservation.service.Adapter.FlightAdapter;
 import edu.miu.cs.cs544.flightreservation.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -84,5 +86,10 @@ public class FlightServiceImpl implements FlightService {
         List<Flight> flights = flightRepository.findAll();
         return flights.stream().map(FlightAdapter::getFlightDTOFromFlight)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<FlightDTO> getAllFlights(Pageable pageable) {
+        return flightRepository.findAll(pageable).map(FlightAdapter::getFlightDTOFromFlight);
     }
 }

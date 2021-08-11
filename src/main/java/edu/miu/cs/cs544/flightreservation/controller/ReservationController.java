@@ -20,7 +20,6 @@ public class ReservationController {
     @Autowired
     private ReservationService reservationService;
 
-    //4. View list of own reservations
     @GetMapping("/user/reservations")
     @PreAuthorize("hasAnyRole('ADMIN', 'PASSENGER', 'AGENT')")
     ResponseEntity<?> getOwnReservations(Authentication authentication) {
@@ -29,7 +28,6 @@ public class ReservationController {
                 HttpStatus.OK);
     }
 
-    // Publicly accessible
     @GetMapping("/reservations/{reservationCode}")
     ResponseEntity<?> getReservationDetailsByCode(@PathVariable String reservationCode) {
         return new ResponseEntity<>(
@@ -37,7 +35,6 @@ public class ReservationController {
                 HttpStatus.OK);
     }
 
-    // For logged-in Users only
     @GetMapping("/user/reservations/{reservationCode}")
     @PreAuthorize("hasAnyRole('AGENT', 'ADMIN', 'PASSENGER')")
     public ReservationDTO getOwnReservationDetails(@PathVariable String reservationCode,
@@ -45,7 +42,6 @@ public class ReservationController {
         return reservationService.getOwnReservationDetails(reservationCode, authentication.getName());
     }
 
-    //6. Make a reservation (note: payload will be a list of flights)
     @PostMapping("/reservations")
     ResponseEntity<?> addReservation(@RequestBody @Valid ReservationDTO reservationDTO) {
         return new ResponseEntity<>(
@@ -61,7 +57,6 @@ public class ReservationController {
                 HttpStatus.CREATED);
     }
 
-    //7. Cancel a reservation
     @PatchMapping("/reservations/{reservationCode}/cancellation")
     @PreAuthorize("hasAnyRole('PASSENGER', 'AGENT', 'ADMIN')")
     ResponseEntity<?> cancelReservation(@PathVariable String reservationCode) {
@@ -71,8 +66,6 @@ public class ReservationController {
                 HttpStatus.OK);
     }
 
-    /*8. Confirm and purchase a reservation. This will result in multiple tickets
-            (one for each flight in the reservation)*/
     @PatchMapping("/reservations/{reservationCode}/payment")
     ResponseEntity<?> purchaseReservation(@PathVariable String reservationCode) {
         return new ResponseEntity<>(
@@ -80,7 +73,6 @@ public class ReservationController {
                         reservationService.purchaseReservation(reservationCode)),
                 HttpStatus.OK);
     }
-
 
     @GetMapping(value = "/reservations", params = "fetch-all-true")
     @PreAuthorize("hasRole('ADMIN')")

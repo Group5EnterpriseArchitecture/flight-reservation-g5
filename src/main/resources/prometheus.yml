@@ -12,7 +12,7 @@ rule_files:
 # A scrape configuration containing exactly one endpoint to scrape:
 # Here it's Prometheus itself.
 scrape_configs:
-  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  # The job name is added as a label `job=<job_name>` to any time series scraped from this config.
   - job_name: 'Group 5 Prometheus'
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
@@ -23,12 +23,4 @@ scrape_configs:
     metrics_path: '/actuator/prometheus'
     scrape_interval: 5s
     static_configs:
-#      - targets: [ 'HOST_IP:8080' ]
-#      - targets: [ '10.10.15.71:8080' ]
       - targets: [ '172.19.140.41:8080' ]
-
-# Prometheus File for docker run
-# "/Users/alvinabaho/Google Drive/ALVIN EDUCATION/COMPRO/7. EA/LABS/SpringStarterProject/src/main/resources/prometheus.yml"
-# docker run -d --name=prometheus -p 9090:9090 -v <PATH_TO_prometheus.yml_FILE>:/etc/prometheus/prometheus.yml prom/prometheus --config.file=/etc/prometheus/prometheus.yml
-# docker run -d --name=prometheus -p 9090:9090 -v "/Users/alvinabaho/Google Drive/ALVIN EDUCATION/COMPRO/7. EA/LABS/SpringStarterProject/src/main/resources/prometheus.yml":/etc/prometheus/prometheus.yml prom/prometheus --config.file=/etc/prometheus/prometheus.yml
-# docker run -d --name=prometheus -p 9090:9090 -v "/Users/alvinabaho/Google Drive/ALVIN EDUCATION/COMPRO/7. EA/PROJECT/MAIN/flight-reservation-g5/src/main/resources/prometheus.yml":/etc/prometheus/prometheus.yml prom/prometheus --config.file=/etc/prometheus/prometheus.yml

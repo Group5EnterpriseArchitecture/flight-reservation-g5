@@ -62,5 +62,4 @@ public class AirportServiceImpl implements AirportService {
         airportRepository.delete(foundAirport);
     }
 
-
 }

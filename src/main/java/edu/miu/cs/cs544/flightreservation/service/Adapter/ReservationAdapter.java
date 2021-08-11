@@ -38,5 +38,4 @@ public class ReservationAdapter {
         return reservation;
     }
 
-
 }

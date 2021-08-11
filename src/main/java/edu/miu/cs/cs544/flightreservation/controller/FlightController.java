@@ -3,6 +3,7 @@ package edu.miu.cs.cs544.flightreservation.controller;
 import edu.miu.cs.cs544.flightreservation.DTO.domain.FlightDTO;
 import edu.miu.cs.cs544.flightreservation.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,16 +20,15 @@ public class FlightController {
     @Autowired
     private FlightService flightService;
 
-    //3. View list of flights between a departure and destination for a date
     @GetMapping("/flights")
     ResponseEntity<?> getFlightsFromToInaDate(
             @RequestParam(value = "departure", required = false) String departure,
             @RequestParam(value = "arrival", required = false) String arrival,
             @RequestParam(value = "departureDate", required = false)
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate departureDate) {
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate departureDate, Pageable pageable) {
 
         if (departure == null || arrival == null || departureDate == null) {
-            return new ResponseEntity<>(flightService.getFlights(), HttpStatus.CREATED);
+            return new ResponseEntity<>(flightService.getAllFlights(pageable), HttpStatus.OK);
         }
 
         return new ResponseEntity<>(
@@ -40,7 +40,6 @@ public class FlightController {
     @PreAuthorize("hasRole('ADMIN')")
     ResponseEntity<?> addFlight(@RequestBody @Valid FlightDTO flightDTO) {
         return new ResponseEntity<>(flightService.addFlight(flightDTO), HttpStatus.CREATED);
-
     }
 
     @PutMapping("/flights/{flightNumber}")

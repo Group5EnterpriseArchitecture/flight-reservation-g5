@@ -14,4 +14,5 @@ public class PersonAdapter {
         return new Person(personDTO.getFirstName(), personDTO.getLastName(), personDTO.getBirthDate(), personDTO.getEmail(),
                 AddressAdapter.getAddressFromAddressDTO(personDTO.getResidenceAddressDTO()));
     }
+
 }

@@ -35,13 +35,4 @@ public class FlightAdapter {
         return flights.stream().map(FlightAdapter::getFlightDTOFromFlight).collect(Collectors.toList());
     }
 
-//    public static List<Flight> getListFlightFromListFlightDTO(List<FlightDTO> flights,
-//                                                              AirportRepository airportRepository,
-//                                                              AirlineRepository airlineRepository) {
-//        return flights
-//                .stream()
-//                .map(f -> getFlightFromFlightDTO(f, airportRepository, airlineRepository))
-//                .collect(Collectors.toList());
-//    }
-
 }
