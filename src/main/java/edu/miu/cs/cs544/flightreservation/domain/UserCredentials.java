@@ -25,7 +25,7 @@ UserCredentials {
     @Size(max = 120)
     private String password;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Role role;
 
     @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
