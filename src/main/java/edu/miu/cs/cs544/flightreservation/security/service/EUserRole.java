@@ -17,13 +17,13 @@ public enum EUserRole {
             AIRLINE_READ, AIRLINE_WRITE, AIRPORT_READ,
             AIRPORT_WRITE, PERSON_READ, PERSON_WRITE));
 
-    private final Set<edu.miu.cs.cs544.flightreservation.security.service.EUserPermission> permissions;
+    private final Set<EUserPermission> permissions;
 
-    EUserRole(Set<edu.miu.cs.cs544.flightreservation.security.service.EUserPermission> permissions) {
+    EUserRole(Set<EUserPermission> permissions) {
         this.permissions = permissions;
     }
 
-    public Set<edu.miu.cs.cs544.flightreservation.security.service.EUserPermission> getPermissions() {
+    public Set<EUserPermission> getPermissions() {
         return permissions;
     }
 

@@ -48,8 +48,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 throw new IllegalStateException("Unexpected ROLE: " + role);
         }
 
-        log.info("ROLES AND PERMISSIONS -> {}", authorities);
-
         return new UserDetailsImpl(
                 user.getUsername(),
                 user.getPassword(),

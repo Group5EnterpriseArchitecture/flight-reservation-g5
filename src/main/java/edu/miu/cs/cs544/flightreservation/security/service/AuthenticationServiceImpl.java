@@ -42,7 +42,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final JwtUtils jwtUtils;
 
-    public AuthenticationServiceImpl(AuthenticationManager authenticationManager, UserCredentialsRepository userCredentialsRepository, PersonRepository personRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtUtils jwtUtils) {
+    public AuthenticationServiceImpl(AuthenticationManager authenticationManager,
+                                     UserCredentialsRepository userCredentialsRepository,
+                                     PersonRepository personRepository,
+                                     RoleRepository roleRepository,
+                                     PasswordEncoder passwordEncoder,
+                                     JwtUtils jwtUtils) {
         this.authenticationManager = authenticationManager;
         this.userCredentialsRepository = userCredentialsRepository;
         this.personRepository = personRepository;
@@ -58,9 +63,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String jwt = jwtUtils.generateJwtToken(authentication);
-
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        String jwt = jwtUtils.generateJwtToken(userDetails);
 
         List<String> rolesAndAuthorities = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -118,6 +123,5 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         userCredentialsRepository.save(userCredentials);
 
         return new MessageResponseDTO("UserCredentials registered successfully!").getResponse("0K");
-        // return ResponseEntity.ok(new GenericResponseDTO("created", person));
     }
 }
