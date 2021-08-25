@@ -32,4 +32,4 @@
 
 ### API Documentation
 
-Full API documentation can be found at [Group5 API Docs](https://documenter.getpostman.com/view/6621230/Tzz5tdY8#95821c0e-5256-4aa5-a251-9e85e87e1eaf)
+Full API documentation can be found at [Group5 API Docs](https://documenter.getpostman.com/view/13138788/Tzz5udyv)

@@ -33,13 +33,9 @@ public class FlightServiceImpl implements FlightService {
     @Autowired
     AirlineRepository airlineRepository;
 
-
     @Override
     public FlightDTO addFlight(FlightDTO flightDTO) {
-        Airport airportArrival = airportRepository.getAirportByCode(flightDTO.getArrivalAirportCode());
-        Airport airportDeparture = airportRepository.getAirportByCode(flightDTO.getDepartureAirportCode());
-        Airline airline = airlineRepository.getAirlineByCode(flightDTO.getOperateBy());
-        Flight flightToBeAdded = FlightAdapter.getFlightFromFlightDTO(flightDTO, airportArrival, airportDeparture, airline);
+        Flight flightToBeAdded = extractFlightFromDTO(flightDTO);
         return FlightAdapter.getFlightDTOFromFlight(flightRepository.save(flightToBeAdded));
     }
 
@@ -54,11 +50,7 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public FlightDTO updateFlight(String flightNumber, FlightDTO flightDTO) {
-        Airport airportArrival = airportRepository.getAirportByCode(flightDTO.getArrivalAirportCode());
-        Airport airportDeparture = airportRepository.getAirportByCode(flightDTO.getDepartureAirportCode());
-        Airline airline = airlineRepository.getAirlineByCode(flightDTO.getOperateBy());
-
-        Flight flight = FlightAdapter.getFlightFromFlightDTO(flightDTO, airportArrival, airportDeparture, airline);
+        Flight flight = extractFlightFromDTO(flightDTO);
 
         Flight flightToBeUpdated = flightRepository.getFlightByFlightNumber(flightNumber)
                 .map(f -> {
@@ -91,5 +83,19 @@ public class FlightServiceImpl implements FlightService {
     @Override
     public Page<FlightDTO> getAllFlights(Pageable pageable) {
         return flightRepository.findAll(pageable).map(FlightAdapter::getFlightDTOFromFlight);
+    }
+
+    private Flight extractFlightFromDTO(FlightDTO flightDTO) {
+        Airport airportArrival = airportRepository
+                .findAirportByCode(flightDTO.getArrivalAirportCode())
+                .orElseThrow(() -> new NoSuchElementFoundException("Arrival airport code does not Exist"));
+        Airport airportDeparture = airportRepository
+                .findAirportByCode(flightDTO.getDepartureAirportCode())
+                .orElseThrow(() -> new NoSuchElementFoundException("Departure Airport code does not Exist"));
+        Airline airline = airlineRepository
+                .findAirlineByCode(flightDTO.getOperateBy())
+                .orElseThrow(() -> new NoSuchElementFoundException("Airline code does not Exist"));
+
+        return FlightAdapter.getFlightFromFlightDTO(flightDTO, airportArrival, airportDeparture, airline);
     }
 }
